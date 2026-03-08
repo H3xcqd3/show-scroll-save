@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Film, Search, TrendingUp, Tv, LogOut, User, Library, Menu, X } from 'lucide-react';
+import { Film, Search, TrendingUp, Tv, LogOut, User, BarChart3 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
