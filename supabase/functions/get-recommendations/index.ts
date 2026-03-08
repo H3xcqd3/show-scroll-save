@@ -90,7 +90,7 @@ ${watchlistTitles || "None"}
 Give recommendations as a numbered list with title, year, type (movie/TV), and a brief reason why they'd like it based on their taste. Be conversational and fun.`;
 
     // Call AI via Lovable AI gateway
-    const aiResponse = await fetch("https://ai-gateway.lovable.dev/v1/chat/completions", {
+    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
