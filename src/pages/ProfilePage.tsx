@@ -170,7 +170,41 @@ const ProfilePage = () => {
           </CollapsibleContent>
         </Collapsible>
 
-        {/* Change Password */}
+        {/* Color Theme */}
+        <Collapsible defaultOpen>
+          <CollapsibleTrigger className="flex w-full items-center justify-between rounded-xl bg-card p-4 shadow-card hover:bg-card/80 transition-colors">
+            <div className="flex items-center gap-3">
+              <Palette className="h-5 w-5 text-primary" />
+              <span className="font-display text-lg font-semibold text-foreground">Color Theme</span>
+            </div>
+            <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
+            <div className="rounded-b-xl border border-t-0 border-border bg-card px-6 py-5 shadow-card">
+              <p className="text-sm text-muted-foreground mb-4">Choose your accent color</p>
+              <div className="grid grid-cols-3 gap-3">
+                {themes.map(t => (
+                  <button
+                    key={t.id}
+                    onClick={() => setTheme(t.id)}
+                    className={`flex items-center gap-3 rounded-lg p-3 transition-all border-2 ${
+                      theme === t.id
+                        ? 'border-primary bg-primary/10'
+                        : 'border-transparent bg-secondary hover:bg-secondary/80'
+                    }`}
+                  >
+                    <div
+                      className="h-6 w-6 rounded-full shrink-0 ring-2 ring-background"
+                      style={{ background: t.preview }}
+                    />
+                    <span className="text-xs font-medium text-foreground truncate">{t.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+
         <Collapsible>
           <CollapsibleTrigger className="flex w-full items-center justify-between rounded-xl bg-card p-4 shadow-card hover:bg-card/80 transition-colors">
             <div className="flex items-center gap-3">
