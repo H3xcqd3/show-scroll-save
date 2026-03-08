@@ -133,4 +133,10 @@ export const tmdb = {
 
   topRated: (type: MediaType, page = 1) =>
     fetchTMDB<{ results: MediaItem[] }>(`/${type}/top_rated`, { page: String(page) }),
+
+  tvSeasonDetails: (tvId: number, seasonNumber: number) =>
+    fetchTMDB<TvSeasonDetail>(`/tv/${tvId}/season/${seasonNumber}`),
+
+  personDetails: (id: number) =>
+    fetchTMDB<PersonDetail>(`/person/${id}`, { append_to_response: 'combined_credits,external_ids' }),
 };
