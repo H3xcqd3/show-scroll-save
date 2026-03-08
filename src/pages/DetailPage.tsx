@@ -144,6 +144,12 @@ const DetailPage = () => {
               <h3 className="font-display font-semibold text-foreground mb-1">Overview</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{detail.overview || 'No overview available.'}</p>
             </div>
+
+            {/* Rating & Review */}
+            <RatingReview item={detail} mediaType={mediaType} />
+
+            {/* Where to Watch */}
+            <WatchProviders providers={detail['watch/providers']?.results} />
           </div>
         </motion.div>
 
