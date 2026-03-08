@@ -1,8 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Film, Search, BookOpen, TrendingUp, Tv } from 'lucide-react';
+import { Film, Search, BookOpen, TrendingUp, Tv, LogOut, User } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@/components/ui/button';
 
 const Navbar = () => {
   const { pathname } = useLocation();
+  const { user, signOut } = useAuth();
 
   const links = [
     { to: '/', icon: TrendingUp, label: 'Discover' },
@@ -34,6 +37,11 @@ const Navbar = () => {
               <span className="hidden sm:inline">{label}</span>
             </Link>
           ))}
+          {user && (
+            <Button variant="ghost" size="icon" onClick={signOut} className="ml-2 text-muted-foreground hover:text-foreground">
+              <LogOut className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </div>
     </nav>

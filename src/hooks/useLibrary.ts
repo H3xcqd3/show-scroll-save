@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { MediaItem, MediaType } from '@/lib/tmdb';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
 
 export type LibraryStatus = 'watchlist' | 'watched' | 'watching';
 
@@ -14,49 +16,56 @@ export interface LibraryItem {
   addedAt: string;
 }
 
-const STORAGE_KEY = 'cinetrack_library';
-
-const loadLibrary = (): LibraryItem[] => {
-  try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
-  } catch { return []; }
-};
-
-const saveLibrary = (items: LibraryItem[]) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-};
-
 export const useLibrary = () => {
-  const [library, setLibrary] = useState<LibraryItem[]>(loadLibrary);
+  const { user } = useAuth();
+  const [library, setLibrary] = useState<LibraryItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => { saveLibrary(library); }, [library]);
+  const fetchLibrary = useCallback(async () => {
+    if (!user) { setLibrary([]); setLoading(false); return; }
+    const { data, error } = await supabase
+      .from('library')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('added_at', { ascending: false });
+    if (!error && data) {
+      setLibrary(data.map(row => ({
+        id: row.tmdb_id,
+        mediaType: row.media_type as MediaType,
+        title: row.title,
+        posterPath: row.poster_path,
+        voteAverage: Number(row.vote_average) || 0,
+        year: row.year || '',
+        status: row.status as LibraryStatus,
+        addedAt: row.added_at,
+      })));
+    }
+    setLoading(false);
+  }, [user]);
 
-  const addToLibrary = useCallback((item: MediaItem, mediaType: MediaType, status: LibraryStatus) => {
-    setLibrary(prev => {
-      const existing = prev.findIndex(l => l.id === item.id && l.mediaType === mediaType);
-      const newItem: LibraryItem = {
-        id: item.id,
-        mediaType,
-        title: item.title || item.name || 'Unknown',
-        posterPath: item.poster_path,
-        voteAverage: item.vote_average,
-        year: (item.release_date || item.first_air_date || '').slice(0, 4),
-        status,
-        addedAt: new Date().toISOString(),
-      };
-      if (existing >= 0) {
-        const updated = [...prev];
-        updated[existing] = newItem;
-        return updated;
-      }
-      return [...prev, newItem];
-    });
-  }, []);
+  useEffect(() => { fetchLibrary(); }, [fetchLibrary]);
 
-  const removeFromLibrary = useCallback((id: number, mediaType: MediaType) => {
-    setLibrary(prev => prev.filter(l => !(l.id === id && l.mediaType === mediaType)));
-  }, []);
+  const addToLibrary = useCallback(async (item: MediaItem, mediaType: MediaType, status: LibraryStatus) => {
+    if (!user) return;
+    const row = {
+      user_id: user.id,
+      tmdb_id: item.id,
+      media_type: mediaType,
+      title: item.title || item.name || 'Unknown',
+      poster_path: item.poster_path,
+      vote_average: item.vote_average,
+      year: (item.release_date || item.first_air_date || '').slice(0, 4),
+      status,
+    };
+    await supabase.from('library').upsert(row, { onConflict: 'user_id,tmdb_id,media_type' });
+    fetchLibrary();
+  }, [user, fetchLibrary]);
+
+  const removeFromLibrary = useCallback(async (id: number, mediaType: MediaType) => {
+    if (!user) return;
+    await supabase.from('library').delete().eq('user_id', user.id).eq('tmdb_id', id).eq('media_type', mediaType);
+    fetchLibrary();
+  }, [user, fetchLibrary]);
 
   const getStatus = useCallback((id: number, mediaType: MediaType): LibraryStatus | null => {
     const item = library.find(l => l.id === id && l.mediaType === mediaType);
@@ -67,5 +76,5 @@ export const useLibrary = () => {
     return library.filter(l => l.status === status);
   }, [library]);
 
-  return { library, addToLibrary, removeFromLibrary, getStatus, getByStatus };
+  return { library, loading, addToLibrary, removeFromLibrary, getStatus, getByStatus };
 };
