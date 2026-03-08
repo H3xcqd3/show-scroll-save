@@ -1,9 +1,17 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Star, Bookmark, Play, Eye, Check } from 'lucide-react';
+import { Star, Bookmark, Play, Eye, Check, ListPlus } from 'lucide-react';
 import { MediaItem, getDisplayTitle, getYear, getImageUrl, MediaType } from '@/lib/tmdb';
 import { useLibrary, LibraryStatus } from '@/hooks/useLibrary';
-
+import { useCustomLists } from '@/hooks/useCustomLists';
+import { useToast } from '@/hooks/use-toast';
+import { useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 interface MediaCardProps {
   item: MediaItem;
   mediaType?: MediaType;
@@ -21,6 +29,9 @@ const MediaCard = ({ item, mediaType }: MediaCardProps) => {
   const title = getDisplayTitle(item);
   const year = getYear(item);
   const { addToLibrary, removeFromLibrary, getStatus } = useLibrary();
+  const { lists, addItem } = useCustomLists();
+  const { toast } = useToast();
+  const [addedTo, setAddedTo] = useState<Set<string>>(new Set());
   const currentStatus = getStatus(item.id, type as MediaType);
 
   return (
@@ -87,6 +98,34 @@ const MediaCard = ({ item, mediaType }: MediaCardProps) => {
             </button>
           );
         })}
+        {lists.length > 0 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className="flex items-center gap-1 rounded-md px-1.5 py-1 text-[10px] font-medium transition-colors bg-secondary text-muted-foreground hover:text-foreground"
+                title="Add to List"
+              >
+                <ListPlus className="h-3 w-3" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              {lists.map(list => (
+                <DropdownMenuItem
+                  key={list.id}
+                  onClick={() => {
+                    addItem(list.id, item, type as MediaType);
+                    setAddedTo(prev => new Set(prev).add(list.id));
+                    toast({ title: `Added to "${list.name}"` });
+                  }}
+                  className="gap-2"
+                >
+                  {addedTo.has(list.id) ? <Check className="h-3.5 w-3.5 text-primary" /> : <ListPlus className="h-3.5 w-3.5" />}
+                  {list.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
     </div>
   );
