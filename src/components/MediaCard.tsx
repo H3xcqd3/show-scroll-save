@@ -1,9 +1,17 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Star, Bookmark, Play, Eye, Check } from 'lucide-react';
+import { Star, Bookmark, Play, Eye, Check, ListPlus } from 'lucide-react';
 import { MediaItem, getDisplayTitle, getYear, getImageUrl, MediaType } from '@/lib/tmdb';
 import { useLibrary, LibraryStatus } from '@/hooks/useLibrary';
-
+import { useCustomLists } from '@/hooks/useCustomLists';
+import { useToast } from '@/hooks/use-toast';
+import { useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 interface MediaCardProps {
   item: MediaItem;
   mediaType?: MediaType;
