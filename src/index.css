@@ -137,11 +137,11 @@
   }
 
   :root[data-theme="emerald"] {
-    --background: 160 15% 96%;
+    --background: 160 15% 76%;
     --foreground: 160 25% 10%;
-    --card: 160 10% 99%;
+    --card: 160 10% 79%;
     --card-foreground: 160 25% 10%;
-    --popover: 160 10% 99%;
+    --popover: 160 10% 79%;
     --popover-foreground: 160 25% 10%;
     --primary: 155 70% 40%;
     --primary-foreground: 0 0% 100%;
