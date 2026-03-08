@@ -80,21 +80,21 @@
     --border: 210 15% 78%;
     --input: 210 15% 78%;
     --ring: 210 90% 50%;
-    --sidebar-background: 210 20% 97%;
+    --sidebar-background: 210 20% 87%;
     --sidebar-foreground: 210 20% 30%;
     --sidebar-primary: 210 90% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 15% 92%;
+    --sidebar-accent: 210 15% 82%;
     --sidebar-accent-foreground: 210 20% 30%;
-    --sidebar-border: 210 15% 88%;
+    --sidebar-border: 210 15% 78%;
     --sidebar-ring: 210 90% 50%;
-    --surface: 210 18% 96%;
-    --surface-hover: 210 18% 92%;
+    --surface: 210 18% 86%;
+    --surface-hover: 210 18% 82%;
     --gold: 210 90% 50%;
-    --gold-muted: 210 40% 70%;
+    --gold-muted: 210 40% 60%;
     --gradient-gold: linear-gradient(135deg, hsl(210, 90%, 50%), hsl(200, 85%, 42%));
-    --gradient-card: linear-gradient(180deg, hsl(210, 20%, 98%) 0%, hsl(210, 20%, 95%) 100%);
-    --shadow-card: 0 4px 24px -4px hsla(210, 30%, 50%, 0.12);
+    --gradient-card: linear-gradient(180deg, hsl(210, 20%, 88%) 0%, hsl(210, 20%, 85%) 100%);
+    --shadow-card: 0 4px 24px -4px hsla(210, 30%, 50%, 0.15);
     --shadow-glow: 0 0 20px -4px hsla(210, 90%, 50%, 0.15);
   }
 
