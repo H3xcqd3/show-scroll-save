@@ -15,6 +15,7 @@ import Films from "./pages/Films";
 import TvSeries from "./pages/TvSeries";
 import PersonPage from "./pages/PersonPage";
 import NotFound from "./pages/NotFound";
+import DiscordFeedPage from "./pages/DiscordFeedPage";
 
 const queryClient = new QueryClient();
 
