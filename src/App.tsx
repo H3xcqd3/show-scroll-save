@@ -12,7 +12,7 @@ import ProfilePage from "./pages/ProfilePage";
 import StatsPage from "./pages/StatsPage";
 import ListsPage from "./pages/ListsPage";
 import ListDetailPage from "./pages/ListDetailPage";
-import RecommendationsPage from "./pages/RecommendationsPage";
+
 import PublicProfilePage from "./pages/PublicProfilePage";
 import SharedListPage from "./pages/SharedListPage";
 import Films from "./pages/Films";
