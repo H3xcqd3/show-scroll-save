@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { tmdb, MediaItem } from '@/lib/tmdb';
 import MediaGrid from '@/components/MediaGrid';
 import Navbar from '@/components/Navbar';
+import LibrarySection from '@/components/LibrarySection';
 import { Loader2 } from 'lucide-react';
 
 const Discover = () => {
@@ -45,6 +46,7 @@ const Discover = () => {
     <>
       <Navbar />
       <main className="mx-auto max-w-7xl space-y-10 px-4 py-8">
+        <LibrarySection />
         <div>
           <h1 className="font-display text-3xl font-bold text-gradient-gold mb-1">Discover</h1>
           <p className="text-muted-foreground">Trending movies & TV shows this week</p>

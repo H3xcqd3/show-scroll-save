@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Film, Search, BookOpen, TrendingUp, Tv, LogOut, User } from 'lucide-react';
+import { Film, Search, TrendingUp, Tv, LogOut, User } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 
@@ -11,7 +11,7 @@ const Navbar = () => {
     { to: '/', icon: TrendingUp, label: 'Discover' },
     { to: '/films', icon: Film, label: 'Films' },
     { to: '/tv-series', icon: Tv, label: 'TV Series' },
-    { to: '/library', icon: BookOpen, label: 'Library' },
+    { to: '/profile', icon: User, label: 'Profile' },
     { to: '/search', icon: Search, label: 'Search' },
   ];
 
