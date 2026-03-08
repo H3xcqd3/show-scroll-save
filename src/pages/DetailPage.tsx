@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { tmdb, MediaDetail, MediaType, getBackdropUrl, getImageUrl, getDisplayTitle, getYear } from '@/lib/tmdb';
 import Navbar from '@/components/Navbar';
 import MediaGrid from '@/components/MediaGrid';
 import LibraryActions from '@/components/LibraryActions';
+import SeasonsList from '@/components/SeasonsList';
 import { Star, Clock, Calendar, Loader2, ExternalLink } from 'lucide-react';
 
 const DetailPage = () => {
@@ -144,31 +145,36 @@ const DetailPage = () => {
           </div>
         </motion.div>
 
-        {/* Cast */}
+        {/* Cast - clickable */}
         {cast.length > 0 && (
           <section className="mt-12">
             <h2 className="font-display text-xl font-bold text-foreground mb-4">Cast</h2>
             <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
               {cast.map(person => (
-                <div key={person.id} className="shrink-0 w-28 text-center">
+                <Link key={person.id} to={`/person/${person.id}`} className="shrink-0 w-28 text-center group">
                   {person.profile_path ? (
                     <img
                       src={getImageUrl(person.profile_path, 'w185')!}
                       alt={person.name}
-                      className="h-28 w-28 rounded-full object-cover mx-auto"
+                      className="h-28 w-28 rounded-full object-cover mx-auto ring-2 ring-transparent group-hover:ring-primary transition-all"
                       loading="lazy"
                     />
                   ) : (
-                    <div className="h-28 w-28 rounded-full bg-secondary mx-auto flex items-center justify-center text-muted-foreground text-xs">
+                    <div className="h-28 w-28 rounded-full bg-secondary mx-auto flex items-center justify-center text-muted-foreground text-xs group-hover:ring-2 group-hover:ring-primary transition-all">
                       No Photo
                     </div>
                   )}
-                  <p className="mt-2 text-xs font-medium text-foreground line-clamp-1">{person.name}</p>
+                  <p className="mt-2 text-xs font-medium text-foreground line-clamp-1 group-hover:text-primary transition-colors">{person.name}</p>
                   <p className="text-[10px] text-muted-foreground line-clamp-1">{person.character}</p>
-                </div>
+                </Link>
               ))}
             </div>
           </section>
+        )}
+
+        {/* Seasons & Episodes (TV only) */}
+        {mediaType === 'tv' && detail.seasons && detail.seasons.length > 0 && (
+          <SeasonsList tvId={Number(id)} seasons={detail.seasons} />
         )}
 
         {/* Similar */}

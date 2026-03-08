@@ -6,10 +6,10 @@ const Navbar = () => {
 
   const links = [
     { to: '/', icon: TrendingUp, label: 'Discover' },
-    { to: '/search', icon: Search, label: 'Search' },
     { to: '/films', icon: Film, label: 'Films' },
     { to: '/tv-series', icon: Tv, label: 'TV Series' },
     { to: '/library', icon: BookOpen, label: 'Library' },
+    { to: '/search', icon: Search, label: 'Search' },
   ];
 
   return (

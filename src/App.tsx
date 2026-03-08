@@ -9,6 +9,7 @@ import DetailPage from "./pages/DetailPage";
 import Library from "./pages/Library";
 import Films from "./pages/Films";
 import TvSeries from "./pages/TvSeries";
+import PersonPage from "./pages/PersonPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/:type/:id" element={<DetailPage />} />
+          <Route path="/person/:id" element={<PersonPage />} />
           <Route path="/library" element={<Library />} />
           <Route path="/films" element={<Films />} />
           <Route path="/tv-series" element={<TvSeries />} />
