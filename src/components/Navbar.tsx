@@ -26,7 +26,7 @@ const Navbar = () => {
   return (
     <>
       {/* Banner */}
-      <div className="relative w-full h-28 md:h-36 overflow-hidden">
+      <div className="relative w-full h-16 md:h-20 overflow-hidden">
         <img
           src="/banner.jpg"
           alt=""
