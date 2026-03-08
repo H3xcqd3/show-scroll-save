@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Camera, Save, Key, User } from 'lucide-react';
+import ApiKeyManager from '@/components/ApiKeyManager';
 
 const ProfilePage = () => {
   const { user } = useAuth();
