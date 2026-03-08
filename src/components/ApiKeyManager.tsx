@@ -87,11 +87,7 @@ const ApiKeyManager = () => {
   const baseUrl = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID || 'your-project'}.supabase.co/functions/v1/library-api`;
 
   return (
-    <div className="rounded-xl bg-card p-6 shadow-card space-y-5">
-      <div className="flex items-center gap-2 mb-2">
-        <Key className="h-5 w-5 text-primary" />
-        <h2 className="font-display text-xl font-semibold text-foreground">API Keys</h2>
-      </div>
+    <div className="space-y-5">
       <p className="text-sm text-muted-foreground">
         Generate API keys to manage your library from external apps.
       </p>
