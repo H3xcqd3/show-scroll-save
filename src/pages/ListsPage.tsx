@@ -38,7 +38,42 @@ const ListsPage = () => {
           <p className="text-muted-foreground">Create themed collections</p>
         </div>
 
-        {/* Create new */}
+        {/* Standard Library Lists */}
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Library</p>
+          <Link to="/library" className="flex items-center justify-between rounded-xl bg-card p-4 shadow-card hover:bg-card/80 transition-colors">
+            <div className="flex items-center gap-3">
+              <Bookmark className="h-5 w-5 text-primary" />
+              <div>
+                <p className="font-display font-semibold text-foreground">Watchlist</p>
+                <p className="text-xs text-muted-foreground">{watchlistCount} items</p>
+              </div>
+            </div>
+          </Link>
+          <Link to="/library" className="flex items-center justify-between rounded-xl bg-card p-4 shadow-card hover:bg-card/80 transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="h-5 w-5 flex items-center justify-center text-primary">▶</div>
+              <div>
+                <p className="font-display font-semibold text-foreground">Watching</p>
+                <p className="text-xs text-muted-foreground">{watchingCount} items</p>
+              </div>
+            </div>
+          </Link>
+          <Link to="/library" className="flex items-center justify-between rounded-xl bg-card p-4 shadow-card hover:bg-card/80 transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="h-5 w-5 flex items-center justify-center text-primary">✓</div>
+              <div>
+                <p className="font-display font-semibold text-foreground">Watched</p>
+                <p className="text-xs text-muted-foreground">{watchedCount} items</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        <div className="border-t border-border" />
+
+        <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Custom Lists</p>
+
         <div className="flex gap-2">
           <Input
             value={newName}
