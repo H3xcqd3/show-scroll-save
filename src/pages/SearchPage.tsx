@@ -30,9 +30,8 @@ const SearchPage = () => {
     <>
       <Navbar />
       <main className="mx-auto max-w-7xl space-y-8 px-4 py-8">
-        <div>
-          <h1 className="font-display text-3xl font-bold text-gradient-gold mb-4">Search</h1>
-          <form onSubmit={handleSearch} className="relative max-w-xl">
+        <div className="flex justify-center pt-4">
+          <form onSubmit={handleSearch} className="relative w-full max-w-xl">
             <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="text"
