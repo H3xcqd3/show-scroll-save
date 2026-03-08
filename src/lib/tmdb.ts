@@ -25,6 +25,20 @@ export interface MediaItem {
   popularity: number;
 }
 
+export interface WatchProvider {
+  provider_id: number;
+  provider_name: string;
+  logo_path: string;
+}
+
+export interface WatchProviderData {
+  link?: string;
+  flatrate?: WatchProvider[];
+  rent?: WatchProvider[];
+  buy?: WatchProvider[];
+  free?: WatchProvider[];
+}
+
 export interface MediaDetail extends MediaItem {
   runtime?: number;
   number_of_seasons?: number;
@@ -44,6 +58,7 @@ export interface MediaDetail extends MediaItem {
   };
   similar?: { results: MediaItem[] };
   seasons?: TvSeason[];
+  'watch/providers'?: { results: Record<string, WatchProviderData> };
 }
 
 export interface TvSeason {
