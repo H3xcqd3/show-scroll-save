@@ -6,6 +6,8 @@ import Navbar from '@/components/Navbar';
 import MediaGrid from '@/components/MediaGrid';
 import LibraryActions from '@/components/LibraryActions';
 import SeasonsList from '@/components/SeasonsList';
+import WatchProviders from '@/components/WatchProviders';
+import RatingReview from '@/components/RatingReview';
 import { Star, Clock, Calendar, Loader2, ExternalLink } from 'lucide-react';
 
 const DetailPage = () => {
