@@ -102,4 +102,16 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  /* Safe area for mobile bottom nav */
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Add bottom padding on mobile so content isn't hidden behind bottom nav */
+  @media (max-width: 767px) {
+    main {
+      padding-bottom: 5rem;
+    }
+  }
 }
