@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
 import Library from "./pages/Library";
+import ProfilePage from "./pages/ProfilePage";
 import Films from "./pages/Films";
 import TvSeries from "./pages/TvSeries";
 import PersonPage from "./pages/PersonPage";
