@@ -43,6 +43,52 @@ export interface MediaDetail extends MediaItem {
     results: { key: string; site: string; type: string; name: string }[];
   };
   similar?: { results: MediaItem[] };
+  seasons?: TvSeason[];
+}
+
+export interface TvSeason {
+  id: number;
+  season_number: number;
+  name: string;
+  episode_count: number;
+  air_date: string | null;
+  poster_path: string | null;
+  overview: string;
+}
+
+export interface TvEpisode {
+  id: number;
+  episode_number: number;
+  season_number: number;
+  name: string;
+  overview: string;
+  air_date: string | null;
+  still_path: string | null;
+  vote_average: number;
+  runtime: number | null;
+}
+
+export interface TvSeasonDetail {
+  id: number;
+  season_number: number;
+  name: string;
+  episodes: TvEpisode[];
+}
+
+export interface PersonDetail {
+  id: number;
+  name: string;
+  biography: string;
+  birthday: string | null;
+  deathday: string | null;
+  place_of_birth: string | null;
+  profile_path: string | null;
+  known_for_department: string;
+  also_known_as: string[];
+  external_ids?: { imdb_id?: string };
+  combined_credits?: {
+    cast: (MediaItem & { character?: string })[];
+  };
 }
 
 export const getDisplayTitle = (item: MediaItem) => item.title || item.name || 'Unknown';
