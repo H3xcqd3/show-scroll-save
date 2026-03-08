@@ -21,7 +21,7 @@ const Navbar = () => {
   const bottomLinks = [
     { to: '/', icon: TrendingUp, label: 'Discover' },
     { to: '/lists', icon: ListPlus, label: 'Lists' },
-    { to: '/recommendations', icon: Sparkles, label: 'For You' },
+    
     { to: '/search', icon: Search, label: 'Search' },
     { to: '/profile', icon: User, label: 'Profile' },
   ];
