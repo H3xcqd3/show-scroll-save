@@ -4,8 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useLibrary } from '@/hooks/useLibrary';
 import { MediaItem, MediaType } from '@/lib/tmdb';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 
 interface RatingReviewProps {
@@ -14,62 +12,27 @@ interface RatingReviewProps {
 }
 
 const RatingReview = ({ item, mediaType }: RatingReviewProps) => {
-  const { user } = useAuth();
   const { toast } = useToast();
-  const { getStatus } = useLibrary();
+  const { getStatus, library, updateItem } = useLibrary();
   const status = getStatus(item.id, mediaType);
 
-  const [rating, setRating] = useState<number | null>(null);
+  const libItem = library.find(l => l.id === item.id && l.mediaType === mediaType);
+
+  const [rating, setRating] = useState<number | null>(libItem?.userRating ?? null);
   const [hoverRating, setHoverRating] = useState<number | null>(null);
-  const [review, setReview] = useState('');
+  const [review, setReview] = useState(libItem?.review || '');
   const [showReview, setShowReview] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [loaded, setLoaded] = useState(false);
-
-  // Load existing rating/review
-  const loadExisting = async () => {
-    if (!user || loaded) return;
-    const { data } = await supabase
-      .from('library')
-      .select('user_rating, review')
-      .eq('user_id', user.id)
-      .eq('tmdb_id', item.id)
-      .eq('media_type', mediaType)
-      .single();
-    if (data) {
-      setRating((data as any).user_rating || null);
-      setReview((data as any).review || '');
-    }
-    setLoaded(true);
-  };
-
-  // Load on mount if item is in library
-  if (status && !loaded) loadExisting();
 
   if (!status) return null;
 
-  const handleRate = async (value: number) => {
-    if (!user) return;
+  const handleRate = (value: number) => {
     const newRating = rating === value ? null : value;
     setRating(newRating);
-    await supabase
-      .from('library')
-      .update({ user_rating: newRating } as any)
-      .eq('user_id', user.id)
-      .eq('tmdb_id', item.id)
-      .eq('media_type', mediaType);
+    updateItem(item.id, mediaType, { userRating: newRating });
   };
 
-  const handleSaveReview = async () => {
-    if (!user) return;
-    setSaving(true);
-    await supabase
-      .from('library')
-      .update({ review } as any)
-      .eq('user_id', user.id)
-      .eq('tmdb_id', item.id)
-      .eq('media_type', mediaType);
-    setSaving(false);
+  const handleSaveReview = () => {
+    updateItem(item.id, mediaType, { review });
     toast({ title: 'Review saved' });
   };
 
@@ -123,8 +86,8 @@ const RatingReview = ({ item, mediaType }: RatingReviewProps) => {
             />
             <div className="flex items-center justify-between">
               <span className="text-xs text-muted-foreground">{review.length}/1000</span>
-              <Button size="sm" onClick={handleSaveReview} disabled={saving}>
-                {saving ? 'Saving...' : 'Save Review'}
+              <Button size="sm" onClick={handleSaveReview}>
+                Save Review
               </Button>
             </div>
           </div>

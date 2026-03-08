@@ -1,7 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { MediaItem, MediaType } from '@/lib/tmdb';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
 
 export type LibraryStatus = 'watchlist' | 'watched' | 'watching';
 
@@ -14,65 +12,55 @@ export interface LibraryItem {
   year: string;
   status: LibraryStatus;
   addedAt: string;
+  genres?: string[];
+  runtime?: number;
+  userRating?: number | null;
+  review?: string | null;
 }
 
+const STORAGE_KEY = 'cinetrack_library';
+
+const loadFromStorage = (): LibraryItem[] => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+};
+
+const saveToStorage = (items: LibraryItem[]) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+};
+
 export const useLibrary = () => {
-  const { user } = useAuth();
-  const [library, setLibrary] = useState<LibraryItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [library, setLibrary] = useState<LibraryItem[]>(() => loadFromStorage());
+  const [loading, setLoading] = useState(false);
 
-  const fetchLibrary = useCallback(async () => {
-    if (!user) { setLibrary([]); setLoading(false); return; }
-    const { data, error } = await supabase
-      .from('library')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('added_at', { ascending: false });
-    if (!error && data) {
-      setLibrary(data.map(row => ({
-        id: row.tmdb_id,
-        mediaType: row.media_type as MediaType,
-        title: row.title,
-        posterPath: row.poster_path,
-        voteAverage: Number(row.vote_average) || 0,
-        year: row.year || '',
-        status: row.status as LibraryStatus,
-        addedAt: row.added_at,
-      })));
-    }
-    setLoading(false);
-  }, [user]);
+  useEffect(() => {
+    saveToStorage(library);
+  }, [library]);
 
-  useEffect(() => { fetchLibrary(); }, [fetchLibrary]);
+  const addToLibrary = useCallback((item: MediaItem, mediaType: MediaType, status: LibraryStatus) => {
+    setLibrary(prev => {
+      const filtered = prev.filter(l => !(l.id === item.id && l.mediaType === mediaType));
+      const newItem: LibraryItem = {
+        id: item.id,
+        mediaType,
+        title: item.title || item.name || 'Unknown',
+        posterPath: item.poster_path,
+        voteAverage: item.vote_average || 0,
+        year: (item.release_date || item.first_air_date || '').slice(0, 4),
+        status,
+        addedAt: new Date().toISOString(),
+        genres: (item as any).genres?.map((g: any) => g.name),
+        runtime: (item as any).runtime,
+      };
+      return [newItem, ...filtered];
+    });
+  }, []);
 
-  const addToLibrary = useCallback(async (item: MediaItem, mediaType: MediaType, status: LibraryStatus) => {
-    if (!user) return;
-    const row: Record<string, any> = {
-      user_id: user.id,
-      tmdb_id: item.id,
-      media_type: mediaType,
-      title: item.title || item.name || 'Unknown',
-      poster_path: item.poster_path,
-      vote_average: item.vote_average,
-      year: (item.release_date || item.first_air_date || '').slice(0, 4),
-      status,
-    };
-    // Store genres and runtime if available (from detail pages)
-    if ((item as any).genres) {
-      row.genres = (item as any).genres.map((g: any) => g.name);
-    }
-    if ((item as any).runtime) {
-      row.runtime = (item as any).runtime;
-    }
-    await supabase.from('library').upsert(row as any, { onConflict: 'user_id,tmdb_id,media_type' });
-    fetchLibrary();
-  }, [user, fetchLibrary]);
-
-  const removeFromLibrary = useCallback(async (id: number, mediaType: MediaType) => {
-    if (!user) return;
-    await supabase.from('library').delete().eq('user_id', user.id).eq('tmdb_id', id).eq('media_type', mediaType);
-    fetchLibrary();
-  }, [user, fetchLibrary]);
+  const removeFromLibrary = useCallback((id: number, mediaType: MediaType) => {
+    setLibrary(prev => prev.filter(l => !(l.id === id && l.mediaType === mediaType)));
+  }, []);
 
   const getStatus = useCallback((id: number, mediaType: MediaType): LibraryStatus | null => {
     const item = library.find(l => l.id === id && l.mediaType === mediaType);
@@ -83,5 +71,11 @@ export const useLibrary = () => {
     return library.filter(l => l.status === status);
   }, [library]);
 
-  return { library, loading, addToLibrary, removeFromLibrary, getStatus, getByStatus };
+  const updateItem = useCallback((id: number, mediaType: MediaType, updates: Partial<LibraryItem>) => {
+    setLibrary(prev => prev.map(l =>
+      l.id === id && l.mediaType === mediaType ? { ...l, ...updates } : l
+    ));
+  }, []);
+
+  return { library, loading, addToLibrary, removeFromLibrary, getStatus, getByStatus, updateItem };
 };
