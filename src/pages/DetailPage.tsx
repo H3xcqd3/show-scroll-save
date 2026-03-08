@@ -8,7 +8,7 @@ import LibraryActions from '@/components/LibraryActions';
 import SeasonsList from '@/components/SeasonsList';
 import WatchProviders from '@/components/WatchProviders';
 import RatingReview from '@/components/RatingReview';
-import AddToListButton from '@/components/AddToListButton';
+
 import { Star, Clock, Calendar, Loader2, ExternalLink } from 'lucide-react';
 
 const DetailPage = () => {
@@ -125,7 +125,6 @@ const DetailPage = () => {
             {/* Library Actions */}
             <div className="flex flex-wrap items-center gap-2">
               <LibraryActions item={detail} mediaType={mediaType} />
-              <AddToListButton item={detail} mediaType={mediaType} />
             </div>
 
             {/* External Links */}

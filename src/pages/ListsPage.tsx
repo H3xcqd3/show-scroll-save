@@ -1,21 +1,24 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useCustomLists, CustomListItem } from '@/hooks/useCustomLists';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useCustomLists } from '@/hooks/useCustomLists';
+import { useLibrary } from '@/hooks/useLibrary';
 import Navbar from '@/components/Navbar';
-import MediaCard from '@/components/MediaCard';
-import { MediaItem } from '@/lib/tmdb';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Trash2, Globe, Lock, Loader2, ListPlus, ArrowLeft, Copy } from 'lucide-react';
+import { Plus, Trash2, Globe, Lock, Loader2, ListPlus, Bookmark } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ListsPage = () => {
-  const { lists, loading, createList, deleteList, updateList } = useCustomLists();
+  const { lists, loading, createList, deleteList } = useCustomLists();
+  const { library } = useLibrary();
   const [newName, setNewName] = useState('');
   const [creating, setCreating] = useState(false);
   const { toast } = useToast();
+
+  const watchlistCount = library.filter(i => i.status === 'watchlist').length;
+  const watchingCount = library.filter(i => i.status === 'watching').length;
+  const watchedCount = library.filter(i => i.status === 'watched').length;
 
   const handleCreate = async () => {
     if (!newName.trim()) return;
@@ -35,7 +38,42 @@ const ListsPage = () => {
           <p className="text-muted-foreground">Create themed collections</p>
         </div>
 
-        {/* Create new */}
+        {/* Standard Library Lists */}
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Library</p>
+          <Link to="/library" className="flex items-center justify-between rounded-xl bg-card p-4 shadow-card hover:bg-card/80 transition-colors">
+            <div className="flex items-center gap-3">
+              <Bookmark className="h-5 w-5 text-primary" />
+              <div>
+                <p className="font-display font-semibold text-foreground">Watchlist</p>
+                <p className="text-xs text-muted-foreground">{watchlistCount} items</p>
+              </div>
+            </div>
+          </Link>
+          <Link to="/library" className="flex items-center justify-between rounded-xl bg-card p-4 shadow-card hover:bg-card/80 transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="h-5 w-5 flex items-center justify-center text-primary">▶</div>
+              <div>
+                <p className="font-display font-semibold text-foreground">Watching</p>
+                <p className="text-xs text-muted-foreground">{watchingCount} items</p>
+              </div>
+            </div>
+          </Link>
+          <Link to="/library" className="flex items-center justify-between rounded-xl bg-card p-4 shadow-card hover:bg-card/80 transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="h-5 w-5 flex items-center justify-center text-primary">✓</div>
+              <div>
+                <p className="font-display font-semibold text-foreground">Watched</p>
+                <p className="text-xs text-muted-foreground">{watchedCount} items</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        <div className="border-t border-border" />
+
+        <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Custom Lists</p>
+
         <div className="flex gap-2">
           <Input
             value={newName}
