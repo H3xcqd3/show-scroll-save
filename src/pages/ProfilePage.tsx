@@ -8,8 +8,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Camera, Save, Key, User, ChevronDown, Shield, Info } from 'lucide-react';
+import { Loader2, Camera, Save, Key, User, ChevronDown, Shield, Info, Download, Globe, Copy } from 'lucide-react';
 import ApiKeyManager from '@/components/ApiKeyManager';
+import ImportExport from '@/components/ImportExport';
 
 const ProfilePage = () => {
   const { user } = useAuth();
@@ -192,6 +193,53 @@ const ProfilePage = () => {
                   Update Password
                 </Button>
               </form>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+
+        {/* Import/Export */}
+        <Collapsible>
+          <CollapsibleTrigger className="flex w-full items-center justify-between rounded-xl bg-card p-4 shadow-card hover:bg-card/80 transition-colors">
+            <div className="flex items-center gap-3">
+              <Download className="h-5 w-5 text-primary" />
+              <span className="font-display text-lg font-semibold text-foreground">Import / Export</span>
+            </div>
+            <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
+            <div className="rounded-b-xl border border-t-0 border-border bg-card px-6 py-5 shadow-card">
+              <ImportExport />
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+
+        {/* Public Profile */}
+        <Collapsible>
+          <CollapsibleTrigger className="flex w-full items-center justify-between rounded-xl bg-card p-4 shadow-card hover:bg-card/80 transition-colors">
+            <div className="flex items-center gap-3">
+              <Globe className="h-5 w-5 text-primary" />
+              <span className="font-display text-lg font-semibold text-foreground">Public Profile</span>
+            </div>
+            <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
+            <div className="rounded-b-xl border border-t-0 border-border bg-card px-6 py-5 shadow-card space-y-3">
+              <p className="text-sm text-muted-foreground">Share your profile with others:</p>
+              <div className="flex items-center gap-2">
+                <code className="flex-1 text-xs bg-secondary p-2 rounded break-all text-foreground">
+                  {window.location.origin}/u/{user?.id}
+                </code>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${window.location.origin}/u/${user?.id}`);
+                    toast({ title: 'Link copied!' });
+                  }}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </CollapsibleContent>
         </Collapsible>
