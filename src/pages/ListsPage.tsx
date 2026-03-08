@@ -10,10 +10,15 @@ import { Plus, Trash2, Globe, Lock, Loader2, ListPlus, Bookmark } from 'lucide-r
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ListsPage = () => {
-  const { lists, loading, createList, deleteList, updateList } = useCustomLists();
+  const { lists, loading, createList, deleteList } = useCustomLists();
+  const { library } = useLibrary();
   const [newName, setNewName] = useState('');
   const [creating, setCreating] = useState(false);
   const { toast } = useToast();
+
+  const watchlistCount = library.filter(i => i.status === 'watchlist').length;
+  const watchingCount = library.filter(i => i.status === 'watching').length;
+  const watchedCount = library.filter(i => i.status === 'watched').length;
 
   const handleCreate = async () => {
     if (!newName.trim()) return;
