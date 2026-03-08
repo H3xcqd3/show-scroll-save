@@ -6,6 +6,8 @@ import Navbar from '@/components/Navbar';
 import MediaGrid from '@/components/MediaGrid';
 import LibraryActions from '@/components/LibraryActions';
 import SeasonsList from '@/components/SeasonsList';
+import WatchProviders from '@/components/WatchProviders';
+import RatingReview from '@/components/RatingReview';
 import { Star, Clock, Calendar, Loader2, ExternalLink } from 'lucide-react';
 
 const DetailPage = () => {
@@ -142,6 +144,12 @@ const DetailPage = () => {
               <h3 className="font-display font-semibold text-foreground mb-1">Overview</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{detail.overview || 'No overview available.'}</p>
             </div>
+
+            {/* Rating & Review */}
+            <RatingReview item={detail} mediaType={mediaType} />
+
+            {/* Where to Watch */}
+            <WatchProviders providers={detail['watch/providers']?.results} />
           </div>
         </motion.div>
 

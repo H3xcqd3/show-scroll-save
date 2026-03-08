@@ -9,6 +9,7 @@ import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
 import Library from "./pages/Library";
 import ProfilePage from "./pages/ProfilePage";
+import StatsPage from "./pages/StatsPage";
 import Films from "./pages/Films";
 import TvSeries from "./pages/TvSeries";
 import PersonPage from "./pages/PersonPage";
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/person/:id" element={<ProtectedRoute><PersonPage /></ProtectedRoute>} />
             <Route path="/library" element={<ProtectedRoute><Library /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+            <Route path="/stats" element={<ProtectedRoute><StatsPage /></ProtectedRoute>} />
             <Route path="/films" element={<ProtectedRoute><Films /></ProtectedRoute>} />
             <Route path="/tv-series" element={<ProtectedRoute><TvSeries /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />

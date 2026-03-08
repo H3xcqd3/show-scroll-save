@@ -25,6 +25,20 @@ export interface MediaItem {
   popularity: number;
 }
 
+export interface WatchProvider {
+  provider_id: number;
+  provider_name: string;
+  logo_path: string;
+}
+
+export interface WatchProviderData {
+  link?: string;
+  flatrate?: WatchProvider[];
+  rent?: WatchProvider[];
+  buy?: WatchProvider[];
+  free?: WatchProvider[];
+}
+
 export interface MediaDetail extends MediaItem {
   runtime?: number;
   number_of_seasons?: number;
@@ -44,6 +58,7 @@ export interface MediaDetail extends MediaItem {
   };
   similar?: { results: MediaItem[] };
   seasons?: TvSeason[];
+  'watch/providers'?: { results: Record<string, WatchProviderData> };
 }
 
 export interface TvSeason {
@@ -123,10 +138,10 @@ export const tmdb = {
     ),
 
   movieDetails: (id: number) =>
-    fetchTMDB<MediaDetail>(`/movie/${id}`, { append_to_response: 'credits,videos,similar,external_ids' }),
+    fetchTMDB<MediaDetail>(`/movie/${id}`, { append_to_response: 'credits,videos,similar,external_ids,watch/providers' }),
 
   tvDetails: (id: number) =>
-    fetchTMDB<MediaDetail>(`/tv/${id}`, { append_to_response: 'credits,videos,similar,external_ids' }),
+    fetchTMDB<MediaDetail>(`/tv/${id}`, { append_to_response: 'credits,videos,similar,external_ids,watch/providers' }),
 
   popular: (type: MediaType, page = 1) =>
     fetchTMDB<{ results: MediaItem[] }>(`/${type}/popular`, { page: String(page) }),

@@ -50,37 +50,49 @@ export type Database = {
       library: {
         Row: {
           added_at: string
+          genres: string[] | null
           id: string
           media_type: string
           poster_path: string | null
+          review: string | null
+          runtime: number | null
           status: string
           title: string
           tmdb_id: number
           user_id: string
+          user_rating: number | null
           vote_average: number | null
           year: string | null
         }
         Insert: {
           added_at?: string
+          genres?: string[] | null
           id?: string
           media_type: string
           poster_path?: string | null
+          review?: string | null
+          runtime?: number | null
           status: string
           title: string
           tmdb_id: number
           user_id: string
+          user_rating?: number | null
           vote_average?: number | null
           year?: string | null
         }
         Update: {
           added_at?: string
+          genres?: string[] | null
           id?: string
           media_type?: string
           poster_path?: string | null
+          review?: string | null
+          runtime?: number | null
           status?: string
           title?: string
           tmdb_id?: number
           user_id?: string
+          user_rating?: number | null
           vote_average?: number | null
           year?: string | null
         }
