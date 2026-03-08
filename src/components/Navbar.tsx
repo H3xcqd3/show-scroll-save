@@ -14,7 +14,6 @@ const Navbar = () => {
     { to: '/films', icon: Film, label: 'Films' },
     { to: '/tv-series', icon: Tv, label: 'TV Series' },
     { to: '/lists', icon: ListPlus, label: 'Lists' },
-    { to: '/recommendations', icon: Sparkles, label: 'For You' },
     { to: '/stats', icon: BarChart3, label: 'Stats' },
     { to: '/search', icon: Search, label: 'Search' },
   ];
