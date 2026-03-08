@@ -9,6 +9,7 @@ import DetailPage from "./pages/DetailPage";
 import Library from "./pages/Library";
 import Films from "./pages/Films";
 import TvSeries from "./pages/TvSeries";
+import PersonPage from "./pages/PersonPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
