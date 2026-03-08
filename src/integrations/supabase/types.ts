@@ -14,7 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      library: {
+        Row: {
+          added_at: string
+          id: string
+          media_type: string
+          poster_path: string | null
+          status: string
+          title: string
+          tmdb_id: number
+          user_id: string
+          vote_average: number | null
+          year: string | null
+        }
+        Insert: {
+          added_at?: string
+          id?: string
+          media_type: string
+          poster_path?: string | null
+          status: string
+          title: string
+          tmdb_id: number
+          user_id: string
+          vote_average?: number | null
+          year?: string | null
+        }
+        Update: {
+          added_at?: string
+          id?: string
+          media_type?: string
+          poster_path?: string | null
+          status?: string
+          title?: string
+          tmdb_id?: number
+          user_id?: string
+          vote_average?: number | null
+          year?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      watched_episodes: {
+        Row: {
+          episode_number: number
+          id: string
+          season_number: number
+          tv_id: number
+          user_id: string
+          watched_at: string
+        }
+        Insert: {
+          episode_number: number
+          id?: string
+          season_number: number
+          tv_id: number
+          user_id: string
+          watched_at?: string
+        }
+        Update: {
+          episode_number?: number
+          id?: string
+          season_number?: number
+          tv_id?: number
+          user_id?: string
+          watched_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
