@@ -123,10 +123,10 @@ export const tmdb = {
     ),
 
   movieDetails: (id: number) =>
-    fetchTMDB<MediaDetail>(`/movie/${id}`, { append_to_response: 'credits,videos,similar,external_ids' }),
+    fetchTMDB<MediaDetail>(`/movie/${id}`, { append_to_response: 'credits,videos,similar,external_ids,watch/providers' }),
 
   tvDetails: (id: number) =>
-    fetchTMDB<MediaDetail>(`/tv/${id}`, { append_to_response: 'credits,videos,similar,external_ids' }),
+    fetchTMDB<MediaDetail>(`/tv/${id}`, { append_to_response: 'credits,videos,similar,external_ids,watch/providers' }),
 
   popular: (type: MediaType, page = 1) =>
     fetchTMDB<{ results: MediaItem[] }>(`/${type}/popular`, { page: String(page) }),
