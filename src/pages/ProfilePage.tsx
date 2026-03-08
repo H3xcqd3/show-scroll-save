@@ -212,6 +212,9 @@ const ProfilePage = () => {
           </form>
         </div>
 
+        {/* API Keys */}
+        <ApiKeyManager />
+
         {/* Account Info */}
         <div className="rounded-xl bg-card p-6 shadow-card space-y-3">
           <h2 className="font-display text-xl font-semibold text-foreground">Account</h2>
