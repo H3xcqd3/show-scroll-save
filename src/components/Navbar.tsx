@@ -25,24 +25,10 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Banner */}
-      <div className="relative w-full h-16 md:h-20 overflow-hidden">
-        <img
-          src="/banner.jpg"
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/50 to-background" />
-        <div className="relative z-10 flex items-center justify-center h-full">
-          <h1 className="font-display text-3xl md:text-4xl font-bold text-gradient-gold tracking-wide drop-shadow-lg">
-            CineTrack
-          </h1>
-        </div>
-      </div>
-
       {/* Desktop navbar */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl hidden md:block">
-        <div className="mx-auto flex max-w-7xl items-center justify-center px-4 py-2">
+        <div className="mx-auto flex max-w-7xl items-center px-4 py-2">
+          <Link to="/" className="font-display text-xl font-bold text-gradient-gold mr-6">CineTrack</Link>
           <div className="flex items-center gap-1">
             {links.map(({ to, icon: Icon, label }) => (
               <Link
