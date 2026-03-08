@@ -5,7 +5,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
 @layer base {
-  :root {
+  :root,
+  :root[data-theme="gold"] {
     --background: 220 20% 6%;
     --foreground: 40 10% 92%;
 
@@ -57,6 +58,81 @@
     --gradient-card: linear-gradient(180deg, hsl(220, 18%, 12%) 0%, hsl(220, 20%, 8%) 100%);
     --shadow-card: 0 4px 24px -4px hsla(0, 0%, 0%, 0.5);
     --shadow-glow: 0 0 20px -4px hsla(38, 92%, 50%, 0.2);
+  }
+
+  :root[data-theme="ocean"] {
+    --primary: 210 90% 55%;
+    --primary-foreground: 210 20% 6%;
+    --accent: 210 90% 55%;
+    --accent-foreground: 210 20% 6%;
+    --ring: 210 90% 55%;
+    --sidebar-primary: 210 90% 55%;
+    --sidebar-primary-foreground: 210 20% 6%;
+    --sidebar-ring: 210 90% 55%;
+    --gold: 210 90% 55%;
+    --gold-muted: 210 50% 30%;
+    --gradient-gold: linear-gradient(135deg, hsl(210, 90%, 55%), hsl(200, 85%, 45%));
+    --shadow-glow: 0 0 20px -4px hsla(210, 90%, 55%, 0.2);
+  }
+
+  :root[data-theme="crimson"] {
+    --primary: 0 80% 55%;
+    --primary-foreground: 0 10% 98%;
+    --accent: 0 80% 55%;
+    --accent-foreground: 0 10% 98%;
+    --ring: 0 80% 55%;
+    --sidebar-primary: 0 80% 55%;
+    --sidebar-primary-foreground: 0 10% 98%;
+    --sidebar-ring: 0 80% 55%;
+    --gold: 0 80% 55%;
+    --gold-muted: 0 50% 30%;
+    --gradient-gold: linear-gradient(135deg, hsl(0, 80%, 55%), hsl(350, 75%, 45%));
+    --shadow-glow: 0 0 20px -4px hsla(0, 80%, 55%, 0.2);
+  }
+
+  :root[data-theme="emerald"] {
+    --primary: 155 70% 45%;
+    --primary-foreground: 155 20% 6%;
+    --accent: 155 70% 45%;
+    --accent-foreground: 155 20% 6%;
+    --ring: 155 70% 45%;
+    --sidebar-primary: 155 70% 45%;
+    --sidebar-primary-foreground: 155 20% 6%;
+    --sidebar-ring: 155 70% 45%;
+    --gold: 155 70% 45%;
+    --gold-muted: 155 40% 25%;
+    --gradient-gold: linear-gradient(135deg, hsl(155, 70%, 45%), hsl(165, 65%, 38%));
+    --shadow-glow: 0 0 20px -4px hsla(155, 70%, 45%, 0.2);
+  }
+
+  :root[data-theme="violet"] {
+    --primary: 270 70% 55%;
+    --primary-foreground: 270 10% 98%;
+    --accent: 270 70% 55%;
+    --accent-foreground: 270 10% 98%;
+    --ring: 270 70% 55%;
+    --sidebar-primary: 270 70% 55%;
+    --sidebar-primary-foreground: 270 10% 98%;
+    --sidebar-ring: 270 70% 55%;
+    --gold: 270 70% 55%;
+    --gold-muted: 270 40% 30%;
+    --gradient-gold: linear-gradient(135deg, hsl(270, 70%, 55%), hsl(280, 65%, 45%));
+    --shadow-glow: 0 0 20px -4px hsla(270, 70%, 55%, 0.2);
+  }
+
+  :root[data-theme="rose"] {
+    --primary: 340 75% 55%;
+    --primary-foreground: 340 10% 98%;
+    --accent: 340 75% 55%;
+    --accent-foreground: 340 10% 98%;
+    --ring: 340 75% 55%;
+    --sidebar-primary: 340 75% 55%;
+    --sidebar-primary-foreground: 340 10% 98%;
+    --sidebar-ring: 340 75% 55%;
+    --gold: 340 75% 55%;
+    --gold-muted: 340 45% 30%;
+    --gradient-gold: linear-gradient(135deg, hsl(340, 75%, 55%), hsl(330, 70%, 45%));
+    --shadow-glow: 0 0 20px -4px hsla(340, 75%, 55%, 0.2);
   }
 }
 
