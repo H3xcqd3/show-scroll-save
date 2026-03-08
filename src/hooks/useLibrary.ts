@@ -47,7 +47,7 @@ export const useLibrary = () => {
 
   const addToLibrary = useCallback(async (item: MediaItem, mediaType: MediaType, status: LibraryStatus) => {
     if (!user) return;
-    const row = {
+    const row: Record<string, any> = {
       user_id: user.id,
       tmdb_id: item.id,
       media_type: mediaType,
@@ -57,6 +57,13 @@ export const useLibrary = () => {
       year: (item.release_date || item.first_air_date || '').slice(0, 4),
       status,
     };
+    // Store genres and runtime if available (from detail pages)
+    if ((item as any).genres) {
+      row.genres = (item as any).genres.map((g: any) => g.name);
+    }
+    if ((item as any).runtime) {
+      row.runtime = (item as any).runtime;
+    }
     await supabase.from('library').upsert(row, { onConflict: 'user_id,tmdb_id,media_type' });
     fetchLibrary();
   }, [user, fetchLibrary]);
