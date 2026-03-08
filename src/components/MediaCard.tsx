@@ -112,6 +112,24 @@ const MediaCard = ({ item, mediaType }: MediaCardProps) => {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
+        <button
+          onClick={() => {
+            if (currentStatus === 'watched') {
+              removeFromLibrary(item.id, type as MediaType);
+            } else {
+              addToLibrary(item, type as MediaType, 'watched');
+            }
+          }}
+          className={`flex items-center gap-1 rounded-md px-1.5 py-1 text-[10px] font-medium transition-colors ${
+            currentStatus === 'watched'
+              ? 'bg-primary text-primary-foreground'
+              : 'bg-secondary text-muted-foreground hover:text-foreground'
+          }`}
+          title="Watched"
+        >
+          {currentStatus === 'watched' ? <Check className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+          Watched
+        </button>
       </div>
     </div>
   );
