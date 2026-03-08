@@ -7,6 +7,8 @@ import Index from "./pages/Index";
 import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
 import Library from "./pages/Library";
+import Films from "./pages/Films";
+import TvSeries from "./pages/TvSeries";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
