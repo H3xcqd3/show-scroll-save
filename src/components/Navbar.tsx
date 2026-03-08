@@ -13,13 +13,15 @@ const Navbar = () => {
     { to: '/', icon: TrendingUp, label: 'Discover' },
     { to: '/films', icon: Film, label: 'Films' },
     { to: '/tv-series', icon: Tv, label: 'TV Series' },
+    { to: '/stats', icon: BarChart3, label: 'Stats' },
     { to: '/search', icon: Search, label: 'Search' },
   ];
 
   const bottomLinks = [
     { to: '/', icon: TrendingUp, label: 'Discover' },
     { to: '/films', icon: Film, label: 'Films' },
-    { to: '/tv-series', icon: Tv, label: 'TV Series' },
+    { to: '/tv-series', icon: Tv, label: 'TV' },
+    { to: '/stats', icon: BarChart3, label: 'Stats' },
     { to: '/search', icon: Search, label: 'Search' },
     { to: '/profile', icon: User, label: 'Profile' },
   ];
