@@ -47,6 +47,80 @@ export type Database = {
         }
         Relationships: []
       }
+      custom_list_items: {
+        Row: {
+          added_at: string
+          id: string
+          list_id: string
+          media_type: string
+          poster_path: string | null
+          title: string
+          tmdb_id: number
+          vote_average: number | null
+          year: string | null
+        }
+        Insert: {
+          added_at?: string
+          id?: string
+          list_id: string
+          media_type: string
+          poster_path?: string | null
+          title: string
+          tmdb_id: number
+          vote_average?: number | null
+          year?: string | null
+        }
+        Update: {
+          added_at?: string
+          id?: string
+          list_id?: string
+          media_type?: string
+          poster_path?: string | null
+          title?: string
+          tmdb_id?: number
+          vote_average?: number | null
+          year?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "custom_list_items_list_id_fkey"
+            columns: ["list_id"]
+            isOneToOne: false
+            referencedRelation: "custom_lists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      custom_lists: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_public: boolean
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_public?: boolean
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_public?: boolean
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       library: {
         Row: {
           added_at: string
