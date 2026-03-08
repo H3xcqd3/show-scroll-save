@@ -29,6 +29,9 @@ const MediaCard = ({ item, mediaType }: MediaCardProps) => {
   const title = getDisplayTitle(item);
   const year = getYear(item);
   const { addToLibrary, removeFromLibrary, getStatus } = useLibrary();
+  const { lists, addItem } = useCustomLists();
+  const { toast } = useToast();
+  const [addedTo, setAddedTo] = useState<Set<string>>(new Set());
   const currentStatus = getStatus(item.id, type as MediaType);
 
   return (
