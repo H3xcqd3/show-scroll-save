@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Search, TrendingUp, Tv, User, BarChart3, ListPlus, Film, MessageCircle } from 'lucide-react';
+import { Search, TrendingUp, Tv, User, BarChart3, ListPlus, Film } from 'lucide-react';
 
 const Navbar = () => {
   const { pathname } = useLocation();
