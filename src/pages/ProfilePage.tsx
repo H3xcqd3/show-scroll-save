@@ -26,6 +26,7 @@ const ProfilePage = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [changingPassword, setChangingPassword] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     if (!user) return;
