@@ -1,14 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useCustomLists, CustomListItem } from '@/hooks/useCustomLists';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useCustomLists } from '@/hooks/useCustomLists';
+import { useLibrary } from '@/hooks/useLibrary';
 import Navbar from '@/components/Navbar';
-import MediaCard from '@/components/MediaCard';
-import { MediaItem } from '@/lib/tmdb';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Trash2, Globe, Lock, Loader2, ListPlus, ArrowLeft, Copy } from 'lucide-react';
+import { Plus, Trash2, Globe, Lock, Loader2, ListPlus, Bookmark } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ListsPage = () => {
