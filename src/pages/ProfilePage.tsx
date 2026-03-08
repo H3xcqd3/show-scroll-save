@@ -197,7 +197,10 @@ const ProfilePage = () => {
                       className="h-6 w-6 rounded-full shrink-0 ring-2 ring-background"
                       style={{ background: t.preview }}
                     />
-                    <span className="text-xs font-medium text-foreground truncate">{t.label}</span>
+                    <div className="text-left min-w-0">
+                      <span className="text-xs font-medium text-foreground block truncate">{t.label}</span>
+                      <span className="text-[10px] text-muted-foreground">{t.mode}</span>
+                    </div>
                   </button>
                 ))}
               </div>
