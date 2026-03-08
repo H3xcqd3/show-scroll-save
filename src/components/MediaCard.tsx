@@ -69,58 +69,49 @@ const MediaCard = ({ item, mediaType }: MediaCardProps) => {
         </motion.div>
       </Link>
       <div className="flex gap-1 mt-1.5">
-        {statusActions.map(({ status, icon: Icon, label }) => {
-          const isActive = currentStatus === status;
-          return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
             <button
-              key={status}
-              onClick={() => {
-                if (isActive) {
-                  removeFromLibrary(item.id, type as MediaType);
-                } else {
-                  addToLibrary(item, type as MediaType, status);
-                }
-              }}
               className={`flex items-center gap-1 rounded-md px-1.5 py-1 text-[10px] font-medium transition-colors ${
-                isActive
+                currentStatus === 'watchlist'
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-secondary text-muted-foreground hover:text-foreground'
               }`}
-              title={label}
             >
-              {isActive ? <Check className="h-3 w-3" /> : <Icon className="h-3 w-3" />}
-              {label}
+              {currentStatus === 'watchlist' ? <Check className="h-3 w-3" /> : <ListPlus className="h-3 w-3" />}
+              Add to List
             </button>
-          );
-        })}
-        {lists.length > 0 && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                className="flex items-center gap-1 rounded-md px-1.5 py-1 text-[10px] font-medium transition-colors bg-secondary text-muted-foreground hover:text-foreground"
-                title="Add to List"
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem
+              onClick={() => {
+                if (currentStatus === 'watchlist') {
+                  removeFromLibrary(item.id, type as MediaType);
+                } else {
+                  addToLibrary(item, type as MediaType, 'watchlist');
+                }
+              }}
+              className="gap-2"
+            >
+              {currentStatus === 'watchlist' ? <Check className="h-3.5 w-3.5 text-primary" /> : <Bookmark className="h-3.5 w-3.5" />}
+              Watchlist
+            </DropdownMenuItem>
+            {lists.map(list => (
+              <DropdownMenuItem
+                key={list.id}
+                onClick={() => {
+                  addItem(list.id, item, type as MediaType);
+                  setAddedTo(prev => new Set(prev).add(list.id));
+                  toast({ title: `Added to "${list.name}"` });
+                }}
+                className="gap-2"
               >
-                <ListPlus className="h-3 w-3" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              {lists.map(list => (
-                <DropdownMenuItem
-                  key={list.id}
-                  onClick={() => {
-                    addItem(list.id, item, type as MediaType);
-                    setAddedTo(prev => new Set(prev).add(list.id));
-                    toast({ title: `Added to "${list.name}"` });
-                  }}
-                  className="gap-2"
-                >
-                  {addedTo.has(list.id) ? <Check className="h-3.5 w-3.5 text-primary" /> : <ListPlus className="h-3.5 w-3.5" />}
-                  {list.name}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )}
+                {addedTo.has(list.id) ? <Check className="h-3.5 w-3.5 text-primary" /> : <ListPlus className="h-3.5 w-3.5" />}
+                {list.name}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );
