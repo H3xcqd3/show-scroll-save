@@ -15,6 +15,7 @@ import Films from "./pages/Films";
 import TvSeries from "./pages/TvSeries";
 import PersonPage from "./pages/PersonPage";
 import NotFound from "./pages/NotFound";
+import DiscordFeedPage from "./pages/DiscordFeedPage";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/lists/:id" element={<ListDetailPage />} />
           <Route path="/films" element={<Films />} />
           <Route path="/tv-series" element={<TvSeries />} />
+          <Route path="/discord" element={<DiscordFeedPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
