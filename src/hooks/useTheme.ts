@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 
 export type ColorTheme = 'gold' | 'ocean' | 'crimson' | 'emerald' | 'violet' | 'rose';
 
-export const themes: { id: ColorTheme; label: string; preview: string }[] = [
-  { id: 'gold', label: 'Gold (Default)', preview: 'hsl(38, 92%, 50%)' },
-  { id: 'ocean', label: 'Ocean Blue', preview: 'hsl(210, 90%, 55%)' },
-  { id: 'crimson', label: 'Crimson Red', preview: 'hsl(0, 80%, 55%)' },
-  { id: 'emerald', label: 'Emerald Green', preview: 'hsl(155, 70%, 45%)' },
-  { id: 'violet', label: 'Violet Purple', preview: 'hsl(270, 70%, 55%)' },
-  { id: 'rose', label: 'Rose Pink', preview: 'hsl(340, 75%, 55%)' },
+export const themes: { id: ColorTheme; label: string; preview: string; mode: string }[] = [
+  { id: 'gold', label: 'Gold', preview: 'hsl(38, 92%, 50%)', mode: 'Dark' },
+  { id: 'ocean', label: 'Ocean', preview: 'hsl(210, 90%, 50%)', mode: 'Light' },
+  { id: 'crimson', label: 'Crimson', preview: 'hsl(0, 80%, 55%)', mode: 'Dark' },
+  { id: 'emerald', label: 'Emerald', preview: 'hsl(155, 70%, 40%)', mode: 'Light' },
+  { id: 'violet', label: 'Violet', preview: 'hsl(270, 70%, 55%)', mode: 'Dark' },
+  { id: 'rose', label: 'Rose', preview: 'hsl(340, 75%, 52%)', mode: 'Light' },
 ];
 
 export const useTheme = () => {
