@@ -37,6 +37,7 @@ const App = () => (
           <Route path="/lists/:id" element={<ListDetailPage />} />
           <Route path="/films" element={<Films />} />
           <Route path="/tv-series" element={<TvSeries />} />
+          <Route path="/discord" element={<DiscordFeedPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

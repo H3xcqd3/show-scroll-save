@@ -10,6 +10,7 @@ const Navbar = () => {
     { to: '/tv-series', icon: Tv, label: 'TV Series' },
     { to: '/lists', icon: ListPlus, label: 'Lists' },
     { to: '/stats', icon: BarChart3, label: 'Stats' },
+    { to: '/discord', icon: MessageCircle, label: 'Discord' },
     { to: '/search', icon: Search, label: 'Search' },
   ];
 
