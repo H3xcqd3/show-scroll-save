@@ -2,6 +2,7 @@ import { Bookmark, Eye, Play, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MediaItem, MediaType } from '@/lib/tmdb';
 import { LibraryStatus, useLibrary } from '@/hooks/useLibrary';
+import AddToListButton from '@/components/AddToListButton';
 
 interface LibraryActionsProps {
   item: MediaItem;
@@ -41,6 +42,7 @@ const LibraryActions = ({ item, mediaType }: LibraryActionsProps) => {
           </Button>
         );
       })}
+      <AddToListButton item={item} mediaType={mediaType} />
     </div>
   );
 };
