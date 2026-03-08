@@ -98,6 +98,34 @@ const MediaCard = ({ item, mediaType }: MediaCardProps) => {
             </button>
           );
         })}
+        {lists.length > 0 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className="flex items-center gap-1 rounded-md px-1.5 py-1 text-[10px] font-medium transition-colors bg-secondary text-muted-foreground hover:text-foreground"
+                title="Add to List"
+              >
+                <ListPlus className="h-3 w-3" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              {lists.map(list => (
+                <DropdownMenuItem
+                  key={list.id}
+                  onClick={() => {
+                    addItem(list.id, item, type as MediaType);
+                    setAddedTo(prev => new Set(prev).add(list.id));
+                    toast({ title: `Added to "${list.name}"` });
+                  }}
+                  className="gap-2"
+                >
+                  {addedTo.has(list.id) ? <Check className="h-3.5 w-3.5 text-primary" /> : <ListPlus className="h-3.5 w-3.5" />}
+                  {list.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
     </div>
   );
