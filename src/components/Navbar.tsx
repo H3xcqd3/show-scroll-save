@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Search, TrendingUp, Tv, User, BarChart3, ListPlus, Film, MessageCircle } from 'lucide-react';
+import { Search, TrendingUp, Tv, User, BarChart3, ListPlus, Film } from 'lucide-react';
 
 const Navbar = () => {
   const { pathname } = useLocation();
@@ -10,7 +10,7 @@ const Navbar = () => {
     { to: '/tv-series', icon: Tv, label: 'TV Series' },
     { to: '/lists', icon: ListPlus, label: 'Lists' },
     { to: '/stats', icon: BarChart3, label: 'Stats' },
-    { to: '/discord', icon: MessageCircle, label: 'Discord' },
+    
     { to: '/search', icon: Search, label: 'Search' },
   ];
 
