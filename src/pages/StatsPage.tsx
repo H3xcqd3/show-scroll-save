@@ -1,16 +1,9 @@
-import { useEffect, useState } from 'react';
 import { useLibrary } from '@/hooks/useLibrary';
-import { useWatchedEpisodes } from '@/hooks/useWatchedEpisodes';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
 import Navbar from '@/components/Navbar';
-import { BarChart3, Clock, Film, Tv, Star, TrendingUp, Loader2 } from 'lucide-react';
+import { BarChart3, Film, Tv, Star, TrendingUp } from 'lucide-react';
 
 const StatsPage = () => {
-  const { user } = useAuth();
   const { library } = useLibrary();
-  const [ratingData, setRatingData] = useState<{ rating: number; count: number }[]>([]);
-  const [loading, setLoading] = useState(true);
 
   const watched = library.filter(i => i.status === 'watched');
   const watching = library.filter(i => i.status === 'watching');
@@ -19,54 +12,31 @@ const StatsPage = () => {
   const watchedMovies = watched.filter(i => i.mediaType === 'movie');
   const watchedTv = watched.filter(i => i.mediaType === 'tv');
 
-  // Fetch ratings distribution
-  useEffect(() => {
-    if (!user) return;
-    const load = async () => {
-      const { data } = await supabase
-        .from('library')
-        .select('user_rating')
-        .eq('user_id', user.id)
-        .not('user_rating', 'is', null);
-
-      if (data) {
-        const counts: Record<number, number> = {};
-        (data as any[]).forEach(d => {
-          const r = d.user_rating;
-          counts[r] = (counts[r] || 0) + 1;
-        });
-        const dist = Array.from({ length: 10 }, (_, i) => ({
-          rating: i + 1,
-          count: counts[i + 1] || 0,
-        }));
-        setRatingData(dist);
-      }
-      setLoading(false);
-    };
-    load();
-  }, [user, library]);
-
-  const avgRating = (() => {
-    const rated = ratingData.filter(d => d.count > 0);
-    if (rated.length === 0) return 0;
-    const total = ratingData.reduce((s, d) => s + d.rating * d.count, 0);
-    const count = ratingData.reduce((s, d) => s + d.count, 0);
-    return count > 0 ? total / count : 0;
-  })();
+  // Rating distribution from localStorage data
+  const ratingData = Array.from({ length: 10 }, (_, i) => {
+    const rating = i + 1;
+    const count = library.filter(l => l.userRating === rating).length;
+    return { rating, count };
+  });
 
   const totalRated = ratingData.reduce((s, d) => s + d.count, 0);
+  const avgRating = totalRated > 0
+    ? ratingData.reduce((s, d) => s + d.rating * d.count, 0) / totalRated
+    : 0;
   const maxCount = Math.max(...ratingData.map(d => d.count), 1);
 
-  if (loading) {
-    return (
-      <>
-        <Navbar />
-        <div className="flex min-h-[60vh] items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
-      </>
-    );
-  }
+  // Genre breakdown
+  const genreCounts: Record<string, number> = {};
+  watched.forEach(item => {
+    (item.genres || []).forEach(g => {
+      genreCounts[g] = (genreCounts[g] || 0) + 1;
+    });
+  });
+  const genres = Object.entries(genreCounts)
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+  const maxGenre = genres[0]?.count || 1;
 
   return (
     <>
@@ -77,7 +47,6 @@ const StatsPage = () => {
           <p className="text-muted-foreground">Your viewing habits at a glance</p>
         </div>
 
-        {/* Overview Cards */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <StatCard icon={Film} label="Movies Watched" value={watchedMovies.length} />
           <StatCard icon={Tv} label="TV Shows Watched" value={watchedTv.length} />
@@ -85,7 +54,6 @@ const StatsPage = () => {
           <StatCard icon={BarChart3} label="Watchlist" value={watchlist.length} />
         </div>
 
-        {/* Rating Stats */}
         <div className="rounded-xl bg-card p-6 shadow-card space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="font-display text-xl font-semibold text-foreground flex items-center gap-2">
@@ -117,10 +85,23 @@ const StatsPage = () => {
           )}
         </div>
 
-        {/* Genre Breakdown */}
-        <GenreBreakdown />
+        {genres.length > 0 && (
+          <div className="rounded-xl bg-card p-6 shadow-card space-y-3">
+            <h2 className="font-display text-xl font-semibold text-foreground">Top Genres</h2>
+            <div className="space-y-2">
+              {genres.map(g => (
+                <div key={g.name} className="flex items-center gap-3">
+                  <span className="text-sm text-foreground w-24 shrink-0 truncate">{g.name}</span>
+                  <div className="flex-1 h-5 rounded bg-secondary overflow-hidden">
+                    <div className="h-full rounded bg-primary/80 transition-all" style={{ width: `${(g.count / maxGenre) * 100}%` }} />
+                  </div>
+                  <span className="text-xs text-muted-foreground w-6 text-right">{g.count}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
-        {/* Total in library */}
         <div className="rounded-xl bg-card p-6 shadow-card">
           <h2 className="font-display text-xl font-semibold text-foreground mb-3">Library Summary</h2>
           <div className="text-sm text-muted-foreground space-y-1">
@@ -141,60 +122,5 @@ const StatCard = ({ icon: Icon, label, value }: { icon: typeof Film; label: stri
     <p className="text-xs text-muted-foreground">{label}</p>
   </div>
 );
-
-const GenreBreakdown = () => {
-  const { user } = useAuth();
-  const [genres, setGenres] = useState<{ name: string; count: number }[]>([]);
-
-  useEffect(() => {
-    if (!user) return;
-    const load = async () => {
-      const { data } = await supabase
-        .from('library')
-        .select('genres')
-        .eq('user_id', user.id)
-        .eq('status', 'watched');
-
-      if (data) {
-        const counts: Record<string, number> = {};
-        (data as any[]).forEach(d => {
-          (d.genres || []).forEach((g: string) => {
-            counts[g] = (counts[g] || 0) + 1;
-          });
-        });
-        const sorted = Object.entries(counts)
-          .map(([name, count]) => ({ name, count }))
-          .sort((a, b) => b.count - a.count)
-          .slice(0, 10);
-        setGenres(sorted);
-      }
-    };
-    load();
-  }, [user]);
-
-  if (genres.length === 0) return null;
-
-  const max = genres[0]?.count || 1;
-
-  return (
-    <div className="rounded-xl bg-card p-6 shadow-card space-y-3">
-      <h2 className="font-display text-xl font-semibold text-foreground">Top Genres</h2>
-      <div className="space-y-2">
-        {genres.map(g => (
-          <div key={g.name} className="flex items-center gap-3">
-            <span className="text-sm text-foreground w-24 shrink-0 truncate">{g.name}</span>
-            <div className="flex-1 h-5 rounded bg-secondary overflow-hidden">
-              <div
-                className="h-full rounded bg-primary/80 transition-all"
-                style={{ width: `${(g.count / max) * 100}%` }}
-              />
-            </div>
-            <span className="text-xs text-muted-foreground w-6 text-right">{g.count}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 export default StatsPage;

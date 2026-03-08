@@ -1,11 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Search, TrendingUp, Tv, LogOut, User, BarChart3, ListPlus, Film } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@/components/ui/button';
+import { Search, TrendingUp, Tv, User, BarChart3, ListPlus, Film } from 'lucide-react';
 
 const Navbar = () => {
   const { pathname } = useLocation();
-  const { user, signOut } = useAuth();
 
   const links = [
     { to: '/', icon: TrendingUp, label: 'Discover' },
@@ -55,23 +52,14 @@ const Navbar = () => {
               <User className="h-4 w-4" />
               <span>Profile</span>
             </Link>
-            {user && (
-              <Button variant="ghost" size="icon" onClick={signOut} className="ml-2 text-muted-foreground hover:text-foreground">
-                <LogOut className="h-4 w-4" />
-              </Button>
-            )}
           </div>
         </div>
       </nav>
 
       {/* Mobile top bar */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl md:hidden">
-        <div className="flex items-center justify-end px-4 py-2">
-          {user && (
-            <Button variant="ghost" size="icon" onClick={signOut} className="text-muted-foreground hover:text-foreground">
-              <LogOut className="h-4 w-4" />
-            </Button>
-          )}
+        <div className="flex items-center justify-center px-4 py-2">
+          <Link to="/" className="font-display text-lg font-bold text-gradient-gold">CineTrack</Link>
         </div>
       </nav>
 

@@ -1,6 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
 
 interface WatchedKey {
   tv_id: number;
@@ -8,60 +6,53 @@ interface WatchedKey {
   episode_number: number;
 }
 
+const STORAGE_KEY = 'cinetrack_watched_episodes';
 const toKey = (k: WatchedKey) => `${k.tv_id}-s${k.season_number}-e${k.episode_number}`;
 
+const loadFromStorage = (): Set<string> => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? new Set(JSON.parse(raw)) : new Set();
+  } catch { return new Set(); }
+};
+
+const saveToStorage = (watched: Set<string>) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify([...watched]));
+};
+
 export const useWatchedEpisodes = () => {
-  const { user } = useAuth();
-  const [watched, setWatched] = useState<Set<string>>(new Set());
+  const [watched, setWatched] = useState<Set<string>>(() => loadFromStorage());
 
-  const fetchWatched = useCallback(async () => {
-    if (!user) { setWatched(new Set()); return; }
-    const { data } = await supabase
-      .from('watched_episodes')
-      .select('tv_id, season_number, episode_number')
-      .eq('user_id', user.id);
-    if (data) {
-      setWatched(new Set(data.map(r => toKey(r))));
-    }
-  }, [user]);
-
-  useEffect(() => { fetchWatched(); }, [fetchWatched]);
+  useEffect(() => { saveToStorage(watched); }, [watched]);
 
   const isWatched = useCallback((tvId: number, season: number, episode: number) => {
     return watched.has(toKey({ tv_id: tvId, season_number: season, episode_number: episode }));
   }, [watched]);
 
   const toggleWatched = useCallback(async (tvId: number, season: number, episode: number) => {
-    if (!user) return;
     const key = toKey({ tv_id: tvId, season_number: season, episode_number: episode });
-    if (watched.has(key)) {
-      await supabase.from('watched_episodes').delete()
-        .eq('user_id', user.id).eq('tv_id', tvId).eq('season_number', season).eq('episode_number', episode);
-    } else {
-      await supabase.from('watched_episodes').insert({
-        user_id: user.id, tv_id: tvId, season_number: season, episode_number: episode,
-      });
-    }
-    fetchWatched();
-  }, [user, watched, fetchWatched]);
+    setWatched(prev => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key); else next.add(key);
+      return next;
+    });
+  }, []);
 
   const markSeasonWatched = useCallback(async (tvId: number, season: number, episodes: number[]) => {
-    if (!user) return;
-    const rows = episodes.map(ep => ({
-      user_id: user.id, tv_id: tvId, season_number: season, episode_number: ep,
-    }));
-    await supabase.from('watched_episodes').upsert(rows, { onConflict: 'user_id,tv_id,season_number,episode_number' });
-    fetchWatched();
-  }, [user, fetchWatched]);
+    setWatched(prev => {
+      const next = new Set(prev);
+      episodes.forEach(ep => next.add(toKey({ tv_id: tvId, season_number: season, episode_number: ep })));
+      return next;
+    });
+  }, []);
 
   const unmarkSeasonWatched = useCallback(async (tvId: number, season: number, episodes: number[]) => {
-    if (!user) return;
-    for (const ep of episodes) {
-      await supabase.from('watched_episodes').delete()
-        .eq('user_id', user.id).eq('tv_id', tvId).eq('season_number', season).eq('episode_number', ep);
-    }
-    fetchWatched();
-  }, [user, fetchWatched]);
+    setWatched(prev => {
+      const next = new Set(prev);
+      episodes.forEach(ep => next.delete(toKey({ tv_id: tvId, season_number: season, episode_number: ep })));
+      return next;
+    });
+  }, []);
 
   const getSeasonProgress = useCallback((tvId: number, season: number, totalEpisodes: number) => {
     let count = 0;
