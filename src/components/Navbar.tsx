@@ -1,13 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Film, Search, TrendingUp, Tv, LogOut, User, BarChart3, ListPlus } from 'lucide-react';
+import { Search, TrendingUp, Tv, LogOut, User, BarChart3, ListPlus, Film } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
 
 const Navbar = () => {
   const { pathname } = useLocation();
   const { user, signOut } = useAuth();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const links = [
     { to: '/', icon: TrendingUp, label: 'Discover' },
@@ -21,20 +19,30 @@ const Navbar = () => {
   const bottomLinks = [
     { to: '/', icon: TrendingUp, label: 'Discover' },
     { to: '/lists', icon: ListPlus, label: 'Lists' },
-    
     { to: '/search', icon: Search, label: 'Search' },
     { to: '/profile', icon: User, label: 'Profile' },
   ];
 
   return (
     <>
-      {/* Desktop top navbar */}
+      {/* Banner */}
+      <div className="relative w-full h-28 md:h-36 overflow-hidden">
+        <img
+          src="/banner.jpg"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/50 to-background" />
+        <div className="relative z-10 flex items-center justify-center h-full">
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-gradient-gold tracking-wide drop-shadow-lg">
+            CineTrack
+          </h1>
+        </div>
+      </div>
+
+      {/* Desktop navbar */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl hidden md:block">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-          <Link to="/" className="flex items-center gap-2">
-            <Film className="h-6 w-6 text-primary" />
-            <span className="font-display text-xl font-bold text-gradient-gold">CineTrack</span>
-          </Link>
+        <div className="mx-auto flex max-w-7xl items-center justify-center px-4 py-2">
           <div className="flex items-center gap-1">
             {links.map(({ to, icon: Icon, label }) => (
               <Link
@@ -70,13 +78,9 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile top bar (logo + sign out only) */}
+      {/* Mobile top bar */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl md:hidden">
-        <div className="flex items-center justify-between px-4 py-3">
-          <Link to="/" className="flex items-center gap-2">
-            <Film className="h-5 w-5 text-primary" />
-            <span className="font-display text-lg font-bold text-gradient-gold">CineTrack</span>
-          </Link>
+        <div className="flex items-center justify-end px-4 py-2">
           {user && (
             <Button variant="ghost" size="icon" onClick={signOut} className="text-muted-foreground hover:text-foreground">
               <LogOut className="h-4 w-4" />
