@@ -123,7 +123,10 @@ const DetailPage = () => {
             </div>
 
             {/* Library Actions */}
-            <LibraryActions item={detail} mediaType={mediaType} />
+            <div className="flex flex-wrap items-center gap-2">
+              <LibraryActions item={detail} mediaType={mediaType} />
+              <AddToListButton item={detail} mediaType={mediaType} />
+            </div>
 
             {/* External Links */}
             <div className="flex gap-3 text-sm">
