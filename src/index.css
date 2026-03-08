@@ -213,11 +213,11 @@
   }
 
   :root[data-theme="rose"] {
-    --background: 340 15% 96%;
+    --background: 340 15% 86%;
     --foreground: 340 20% 12%;
-    --card: 340 10% 99%;
+    --card: 340 10% 89%;
     --card-foreground: 340 20% 12%;
-    --popover: 340 10% 99%;
+    --popover: 340 10% 89%;
     --popover-foreground: 340 20% 12%;
     --primary: 340 75% 52%;
     --primary-foreground: 0 0% 100%;
