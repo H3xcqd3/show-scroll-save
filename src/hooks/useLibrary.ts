@@ -64,7 +64,7 @@ export const useLibrary = () => {
     if ((item as any).runtime) {
       row.runtime = (item as any).runtime;
     }
-    await supabase.from('library').upsert(row, { onConflict: 'user_id,tmdb_id,media_type' });
+    await supabase.from('library').upsert(row as any, { onConflict: 'user_id,tmdb_id,media_type' });
     fetchLibrary();
   }, [user, fetchLibrary]);
 
