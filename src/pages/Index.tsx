@@ -1,14 +1,22 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect } from 'react';
+import ApiKeyPrompt from '@/components/ApiKeyPrompt';
+import Discover from '@/pages/Discover';
 
 const Index = () => {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const [hasKey, setHasKey] = useState(!!localStorage.getItem('tmdb_api_key'));
+
+  if (!hasKey) {
+    return (
+      <ApiKeyPrompt
+        onSubmit={(key) => {
+          localStorage.setItem('tmdb_api_key', key);
+          setHasKey(true);
+        }}
+      />
+    );
+  }
+
+  return <Discover />;
 };
 
 export default Index;
