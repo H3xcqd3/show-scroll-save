@@ -12,7 +12,7 @@ import ProfilePage from "./pages/ProfilePage";
 import StatsPage from "./pages/StatsPage";
 import ListsPage from "./pages/ListsPage";
 import ListDetailPage from "./pages/ListDetailPage";
-import RecommendationsPage from "./pages/RecommendationsPage";
+
 import PublicProfilePage from "./pages/PublicProfilePage";
 import SharedListPage from "./pages/SharedListPage";
 import Films from "./pages/Films";
@@ -53,7 +53,7 @@ const App = () => (
             <Route path="/stats" element={<ProtectedRoute><StatsPage /></ProtectedRoute>} />
             <Route path="/lists" element={<ProtectedRoute><ListsPage /></ProtectedRoute>} />
             <Route path="/lists/:id" element={<ProtectedRoute><ListDetailPage /></ProtectedRoute>} />
-            <Route path="/recommendations" element={<ProtectedRoute><RecommendationsPage /></ProtectedRoute>} />
+            
             <Route path="/films" element={<ProtectedRoute><Films /></ProtectedRoute>} />
             <Route path="/tv-series" element={<ProtectedRoute><TvSeries /></ProtectedRoute>} />
             <Route path="/u/:userId" element={<PublicProfilePage />} />

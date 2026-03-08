@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Film, Search, TrendingUp, Tv, LogOut, User, BarChart3, ListPlus, Sparkles } from 'lucide-react';
+import { Film, Search, TrendingUp, Tv, LogOut, User, BarChart3, ListPlus } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
@@ -14,7 +14,6 @@ const Navbar = () => {
     { to: '/films', icon: Film, label: 'Films' },
     { to: '/tv-series', icon: Tv, label: 'TV Series' },
     { to: '/lists', icon: ListPlus, label: 'Lists' },
-    { to: '/recommendations', icon: Sparkles, label: 'For You' },
     { to: '/stats', icon: BarChart3, label: 'Stats' },
     { to: '/search', icon: Search, label: 'Search' },
   ];
@@ -22,7 +21,7 @@ const Navbar = () => {
   const bottomLinks = [
     { to: '/', icon: TrendingUp, label: 'Discover' },
     { to: '/lists', icon: ListPlus, label: 'Lists' },
-    { to: '/recommendations', icon: Sparkles, label: 'For You' },
+    
     { to: '/search', icon: Search, label: 'Search' },
     { to: '/profile', icon: User, label: 'Profile' },
   ];
