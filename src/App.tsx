@@ -9,6 +9,7 @@ import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
 import Library from "./pages/Library";
 import ProfilePage from "./pages/ProfilePage";
+import StatsPage from "./pages/StatsPage";
 import Films from "./pages/Films";
 import TvSeries from "./pages/TvSeries";
 import PersonPage from "./pages/PersonPage";
