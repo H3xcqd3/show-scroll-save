@@ -17,11 +17,6 @@ interface MediaCardProps {
   mediaType?: MediaType;
 }
 
-const statusActions: { status: LibraryStatus; icon: typeof Bookmark; label: string }[] = [
-  { status: 'watchlist', icon: Bookmark, label: 'Watchlist' },
-  { status: 'watching', icon: Play, label: 'Watching' },
-  { status: 'watched', icon: Eye, label: 'Watched' },
-];
 
 const MediaCard = ({ item, mediaType }: MediaCardProps) => {
   const type = item.media_type || mediaType || 'movie';
