@@ -9,7 +9,7 @@ interface MediaCardProps {
 }
 
 const MediaCard = ({ item, mediaType }: MediaCardProps) => {
-  const type = mediaType || item.media_type || 'movie';
+  const type = item.media_type || mediaType || 'movie';
   const poster = getImageUrl(item.poster_path, 'w342');
   const title = getDisplayTitle(item);
   const year = getYear(item);
