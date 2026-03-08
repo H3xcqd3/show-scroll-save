@@ -8,8 +8,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Camera, Save, Key, User, ChevronDown, Shield, Info } from 'lucide-react';
+import { Loader2, Camera, Save, Key, User, ChevronDown, Shield, Info, Download, Globe, Copy } from 'lucide-react';
 import ApiKeyManager from '@/components/ApiKeyManager';
+import ImportExport from '@/components/ImportExport';
 
 const ProfilePage = () => {
   const { user } = useAuth();
