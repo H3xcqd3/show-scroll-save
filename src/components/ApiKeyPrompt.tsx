@@ -19,7 +19,7 @@ const ApiKeyPrompt = ({ onSubmit }: ApiKeyPromptProps) => {
           </div>
         </div>
         <div>
-          <h1 className="font-display text-3xl font-bold text-foreground">CineTrack</h1>
+          <h1 className="font-display text-3xl font-bold text-foreground">MPTL</h1>
           <p className="mt-2 text-muted-foreground">
             Enter your TMDB API key to get started. Get one free at{' '}
             <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener noreferrer" className="text-primary underline">

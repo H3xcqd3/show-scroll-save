@@ -60,7 +60,7 @@ const Navbar = () => {
       {/* Mobile top bar */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl md:hidden">
         <div className="flex items-center justify-center px-4 py-2">
-          <Link to="/" className="font-display text-lg font-bold text-gradient-gold">CineTrack</Link>
+          <Link to="/" className="font-display text-lg font-bold text-gradient-gold">MPTL</Link>
         </div>
       </nav>
 
