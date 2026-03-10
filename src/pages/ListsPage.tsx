@@ -70,35 +70,9 @@ const ListsPage = () => {
           </Link>
         </div>
 
-        <div className="border-t border-border" />
-
-        <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Custom Lists</p>
-
-        <div className="flex gap-2">
-          <Input
-            value={newName}
-            onChange={e => setNewName(e.target.value)}
-            placeholder="New list name..."
-            className="flex-1"
-            onKeyDown={e => e.key === 'Enter' && handleCreate()}
-          />
-          <Button onClick={handleCreate} disabled={creating || !newName.trim()} className="gap-1.5 shrink-0">
-            {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-            Create
-          </Button>
-        </div>
-
-        {loading ? (
-          <div className="flex justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          </div>
-        ) : lists.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
-            <ListPlus className="h-12 w-12 mb-4 opacity-50" />
-            <p>No lists yet. Create one above!</p>
-          </div>
-        ) : (
+        {lists.length > 0 && (
           <div className="space-y-3">
+            <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Custom Lists</p>
             <AnimatePresence mode="popLayout">
               {lists.map(list => (
                 <motion.div
@@ -112,15 +86,18 @@ const ListsPage = () => {
                     to={`/lists/${list.id}`}
                     className="flex items-center justify-between rounded-xl bg-card p-4 shadow-card hover:bg-card/80 transition-colors"
                   >
-                    <div>
-                      <p className="font-display font-semibold text-foreground">{list.name}</p>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                        {list.is_public ? (
-                          <span className="flex items-center gap-1"><Globe className="h-3 w-3" /> Public</span>
-                        ) : (
-                          <span className="flex items-center gap-1"><Lock className="h-3 w-3" /> Private</span>
-                        )}
-                        <span>Created {new Date(list.created_at).toLocaleDateString()}</span>
+                    <div className="flex items-center gap-3">
+                      <Bookmark className="h-5 w-5 text-primary" />
+                      <div>
+                        <p className="font-display font-semibold text-foreground">{list.name}</p>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+                          {list.is_public ? (
+                            <span className="flex items-center gap-1"><Globe className="h-3 w-3" /> Public</span>
+                          ) : (
+                            <span className="flex items-center gap-1"><Lock className="h-3 w-3" /> Private</span>
+                          )}
+                          <span>Created {new Date(list.created_at).toLocaleDateString()}</span>
+                        </div>
                       </div>
                     </div>
                     <Button
@@ -137,6 +114,24 @@ const ListsPage = () => {
             </AnimatePresence>
           </div>
         )}
+
+        <div className="border-t border-border" />
+
+        <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Create New List</p>
+
+        <div className="flex gap-2">
+          <Input
+            value={newName}
+            onChange={e => setNewName(e.target.value)}
+            placeholder="New list name..."
+            className="flex-1"
+            onKeyDown={e => e.key === 'Enter' && handleCreate()}
+          />
+          <Button onClick={handleCreate} disabled={creating || !newName.trim()} className="gap-1.5 shrink-0">
+            {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+            Create
+          </Button>
+        </div>
       </main>
     </>
   );
