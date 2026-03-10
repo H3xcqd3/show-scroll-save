@@ -31,7 +31,7 @@ const ImportExport = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `cinetrack-library-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `mptl-library-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
     toast({ title: 'Library exported', description: `${library.length} items exported to CSV.` });
