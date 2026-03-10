@@ -26,7 +26,7 @@ const Navbar = () => {
       {/* Desktop navbar */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl hidden md:block">
         <div className="mx-auto flex max-w-7xl items-center px-4 py-2">
-          <Link to="/" className="font-display text-xl font-bold text-gradient-gold mr-6">CineTrack</Link>
+          <Link to="/" className="font-display text-xl font-bold text-gradient-gold mr-6">MPTL</Link>
           <div className="flex items-center gap-1">
             {links.map(({ to, icon: Icon, label }) => (
               <Link
@@ -60,7 +60,7 @@ const Navbar = () => {
       {/* Mobile top bar */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl md:hidden">
         <div className="flex items-center justify-center px-4 py-2">
-          <Link to="/" className="font-display text-lg font-bold text-gradient-gold">CineTrack</Link>
+          <Link to="/" className="font-display text-lg font-bold text-gradient-gold">MPTL</Link>
         </div>
       </nav>
 

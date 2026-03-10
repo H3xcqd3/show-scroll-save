@@ -31,7 +31,7 @@ const ImportExport = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `cinetrack-library-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `mptl-library-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
     toast({ title: 'Library exported', description: `${library.length} items exported to CSV.` });
@@ -42,7 +42,7 @@ const ImportExport = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `cinetrack-library-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `mptl-library-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
     toast({ title: 'Library exported', description: `${library.length} items exported to JSON.` });
@@ -99,7 +99,7 @@ const ImportExport = () => {
       {showImport && (
         <div className="rounded-xl bg-card p-4 shadow-card space-y-3">
           <p className="text-sm text-muted-foreground">
-            Paste CSV data below. Supports CineTrack CSV format.
+            Paste CSV data below. Supports MPTL CSV format.
           </p>
           <Textarea
             value={csvInput}
