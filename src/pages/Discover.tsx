@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { tmdb, MediaItem } from '@/lib/tmdb';
 import MediaGrid from '@/components/MediaGrid';
 import Navbar from '@/components/Navbar';
-import LibrarySection from '@/components/LibrarySection';
 import { Loader2 } from 'lucide-react';
 
 const Discover = () => {
