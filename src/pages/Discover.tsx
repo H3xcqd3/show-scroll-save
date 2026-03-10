@@ -45,7 +45,6 @@ const Discover = () => {
     <>
       <Navbar />
       <main className="mx-auto max-w-7xl space-y-10 px-4 py-8">
-        <LibrarySection />
         <div>
           <h1 className="font-display text-3xl font-bold text-gradient-gold mb-1">Discover</h1>
           <p className="text-muted-foreground">Trending movies & TV shows this week</p>
