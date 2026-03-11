@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Search, TrendingUp, Tv, User, BarChart3, ListPlus, Film, LogOut } from 'lucide-react';
+import { Search, TrendingUp, Tv, User, BarChart3, ListPlus, Film, LogOut, ShieldCheck } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 
