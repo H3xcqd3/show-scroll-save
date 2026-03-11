@@ -57,6 +57,19 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="flex items-center gap-2">
+            {role === 'admin' && (
+              <Link
+                to="/admin"
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                  pathname === '/admin'
+                    ? 'bg-secondary text-primary'
+                    : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
+                }`}
+              >
+                <ShieldCheck className="h-4 w-4" />
+                <span>Admin</span>
+              </Link>
+            )}
             {role && (
               <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium capitalize">
                 {role}
