@@ -1,8 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Search, TrendingUp, Tv, User, BarChart3, ListPlus, Film } from 'lucide-react';
+import { Search, TrendingUp, Tv, User, BarChart3, ListPlus, Film, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
 
 const Navbar = () => {
   const { pathname } = useLocation();
+  const { signOut, role } = useAuth();
 
   const links = [
     { to: '/', icon: TrendingUp, label: 'Discover' },
@@ -10,7 +13,6 @@ const Navbar = () => {
     { to: '/tv-series', icon: Tv, label: 'TV Series' },
     { to: '/lists', icon: ListPlus, label: 'Lists' },
     { to: '/stats', icon: BarChart3, label: 'Stats' },
-    
     { to: '/search', icon: Search, label: 'Search' },
   ];
 
@@ -27,7 +29,7 @@ const Navbar = () => {
       <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl hidden md:block">
         <div className="mx-auto flex max-w-7xl items-center px-4 py-2">
           <Link to="/" className="font-display text-xl font-bold text-gradient-gold mr-6">MPTL</Link>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 flex-1">
             {links.map(({ to, icon: Icon, label }) => (
               <Link
                 key={to}
@@ -54,13 +56,33 @@ const Navbar = () => {
               <span>Profile</span>
             </Link>
           </div>
+          <div className="flex items-center gap-2">
+            {role && (
+              <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium capitalize">
+                {role}
+              </span>
+            )}
+            <Button variant="ghost" size="icon" onClick={signOut} className="text-muted-foreground hover:text-destructive">
+              <LogOut className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </nav>
 
       {/* Mobile top bar */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl md:hidden">
-        <div className="flex items-center justify-center px-4 py-2">
+        <div className="flex items-center justify-between px-4 py-2">
           <Link to="/" className="font-display text-lg font-bold text-gradient-gold">MPTL</Link>
+          <div className="flex items-center gap-2">
+            {role && (
+              <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium capitalize">
+                {role}
+              </span>
+            )}
+            <Button variant="ghost" size="icon" onClick={signOut} className="h-8 w-8 text-muted-foreground hover:text-destructive">
+              <LogOut className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </nav>
 
