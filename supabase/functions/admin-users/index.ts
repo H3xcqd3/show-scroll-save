@@ -118,7 +118,7 @@ serve(async (req) => {
           email_confirm: true,
         });
         if (error) {
-          created.push({ email: u.email, error: error.message });
+          created.push({ email: u.email, error: error.message, status: error.status, name: error.name });
         } else {
           created.push({ email: u.email, id: data.user.id });
         }
