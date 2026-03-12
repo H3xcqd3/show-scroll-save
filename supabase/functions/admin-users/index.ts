@@ -43,15 +43,12 @@ serve(async (req) => {
     const action = url.searchParams.get("action");
 
     if (req.method === "GET" && action === "list") {
-      // List all users
       const { data: { users }, error } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 });
       if (error) throw error;
 
-      // Get roles
       const { data: roles } = await supabaseAdmin.from("user_roles").select("*");
       const roleMap = new Map((roles || []).map((r: any) => [r.user_id, r.role]));
 
-      // Get profiles
       const { data: profiles } = await supabaseAdmin.from("profiles").select("*");
       const profileMap = new Map((profiles || []).map((p: any) => [p.user_id, p]));
 
@@ -74,7 +71,6 @@ serve(async (req) => {
         return new Response(JSON.stringify({ error: "Invalid input" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       }
 
-      // Prevent removing own admin role
       if (userId === caller.id && role !== "admin") {
         return new Response(JSON.stringify({ error: "Cannot remove your own admin role" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       }
@@ -85,6 +81,34 @@ serve(async (req) => {
         .eq("user_id", userId);
 
       if (error) throw error;
+      return new Response(JSON.stringify({ success: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    if (req.method === "POST" && action === "update-user") {
+      const { userId, displayName, email, password } = await req.json();
+      if (!userId) {
+        return new Response(JSON.stringify({ error: "Invalid input" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+
+      // Update auth user (email and/or password)
+      const authUpdate: any = {};
+      if (email) authUpdate.email = email;
+      if (password) authUpdate.password = password;
+
+      if (Object.keys(authUpdate).length > 0) {
+        const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, authUpdate);
+        if (error) throw error;
+      }
+
+      // Update profile display name
+      if (displayName !== undefined) {
+        const { error } = await supabaseAdmin
+          .from("profiles")
+          .update({ display_name: displayName })
+          .eq("user_id", userId);
+        if (error) throw error;
+      }
+
       return new Response(JSON.stringify({ success: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
@@ -100,8 +124,6 @@ serve(async (req) => {
       const { error } = await supabaseAdmin.auth.admin.deleteUser(userId);
       if (error) throw error;
       return new Response(JSON.stringify({ success: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
-
     }
 
     return new Response(JSON.stringify({ error: "Unknown action" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });

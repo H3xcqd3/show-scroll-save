@@ -5,8 +5,9 @@ import { supabase } from '@/integrations/supabase/client';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Shield, ShieldCheck, Trash2, Loader2, Users, Crown, UserIcon } from 'lucide-react';
+import { Shield, ShieldCheck, Trash2, Loader2, Users, Crown, UserIcon, Pencil } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import AdminUserEditDialog from '@/components/AdminUserEditDialog';
 
 interface ManagedUser {
   id: string;
@@ -25,6 +26,7 @@ const AdminPage = () => {
   const [users, setUsers] = useState<ManagedUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [editUser, setEditUser] = useState<ManagedUser | null>(null);
 
   useEffect(() => {
     if (!authLoading && role !== 'admin') {
@@ -184,42 +186,62 @@ const AdminPage = () => {
                     </div>
                   </div>
 
-                  {u.id !== user?.id && (
-                    <div className="flex items-center gap-1 shrink-0 ml-2">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => updateRole(u.id, u.role === 'admin' ? 'user' : 'admin')}
-                        disabled={actionLoading === u.id}
-                        className="text-muted-foreground hover:text-primary"
-                        title={u.role === 'admin' ? 'Demote to user' : 'Promote to admin'}
-                      >
-                        {actionLoading === u.id ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : u.role === 'admin' ? (
-                          <Shield className="h-4 w-4" />
-                        ) : (
-                          <ShieldCheck className="h-4 w-4" />
-                        )}
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => deleteUser(u.id, u.email || '')}
-                        disabled={actionLoading === u.id}
-                        className="text-muted-foreground hover:text-destructive"
-                        title="Delete user"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  )}
+                  <div className="flex items-center gap-1 shrink-0 ml-2">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setEditUser(u)}
+                      className="text-muted-foreground hover:text-primary"
+                      title="Edit user"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                    {u.id !== user?.id && (
+                      <>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => updateRole(u.id, u.role === 'admin' ? 'user' : 'admin')}
+                          disabled={actionLoading === u.id}
+                          className="text-muted-foreground hover:text-primary"
+                          title={u.role === 'admin' ? 'Demote to user' : 'Promote to admin'}
+                        >
+                          {actionLoading === u.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : u.role === 'admin' ? (
+                            <Shield className="h-4 w-4" />
+                          ) : (
+                            <ShieldCheck className="h-4 w-4" />
+                          )}
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => deleteUser(u.id, u.email || '')}
+                          disabled={actionLoading === u.id}
+                          className="text-muted-foreground hover:text-destructive"
+                          title="Delete user"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </>
+                    )}
+                  </div>
                 </motion.div>
               ))}
             </AnimatePresence>
           </div>
         )}
       </main>
+
+      {editUser && (
+        <AdminUserEditDialog
+          open={!!editUser}
+          onOpenChange={open => !open && setEditUser(null)}
+          user={editUser}
+          onSaved={fetchUsers}
+        />
+      )}
     </>
   );
 };
