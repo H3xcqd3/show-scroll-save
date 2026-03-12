@@ -102,28 +102,6 @@ serve(async (req) => {
       return new Response(JSON.stringify({ success: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    if (req.method === "POST" && action === "create-test-users") {
-      const testUsers = [
-        { email: "alice.test@example.com", password: "Test1234!" },
-        { email: "bob.test@example.com", password: "Test1234!" },
-        { email: "charlie.test@example.com", password: "Test1234!" },
-        { email: "diana.test@example.com", password: "Test1234!" },
-        { email: "eve.test@example.com", password: "Test1234!" },
-      ];
-      const created = [];
-      for (const u of testUsers) {
-        const { data, error } = await supabaseAdmin.auth.admin.createUser({
-          email: u.email,
-          password: u.password,
-          email_confirm: true,
-        });
-        if (error) {
-          created.push({ email: u.email, error: error.message, status: error.status, name: error.name });
-        } else {
-          created.push({ email: u.email, id: data.user.id });
-        }
-      }
-      return new Response(JSON.stringify(created), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     return new Response(JSON.stringify({ error: "Unknown action" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
