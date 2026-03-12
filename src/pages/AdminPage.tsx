@@ -35,13 +35,6 @@ const AdminPage = () => {
   const fetchUsers = async () => {
     setLoading(true);
     const { data: { session } } = await supabase.auth.getSession();
-    const res = await supabase.functions.invoke('admin-users', {
-      method: 'GET',
-      headers: { Authorization: `Bearer ${session?.access_token}` },
-      body: undefined,
-    });
-
-    // workaround: invoke doesn't support query params well, use fetch directly
     const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-users?action=list`;
     const response = await fetch(url, {
       headers: {
