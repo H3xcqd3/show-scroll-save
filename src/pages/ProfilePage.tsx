@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import Navbar from '@/components/Navbar';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
-import { Download, ChevronDown, Sun, Moon, User, Mail, Lock, Camera, Loader2 } from 'lucide-react';
+import { Download, ChevronDown, Sun, Moon, User, Mail, Lock, Camera, Loader2, Key } from 'lucide-react';
 import ImportExport from '@/components/ImportExport';
 import { useTheme } from '@/hooks/useTheme';
 import { useAuth } from '@/contexts/AuthContext';
