@@ -281,6 +281,22 @@ const ProfilePage = () => {
             </div>
           </CollapsibleContent>
         </Collapsible>
+
+        {/* API Keys */}
+        <Collapsible>
+          <CollapsibleTrigger className="flex w-full items-center justify-between rounded-xl bg-card p-4 shadow-card hover:bg-card/80 transition-colors">
+            <div className="flex items-center gap-3">
+              <Key className="h-5 w-5 text-primary" />
+              <span className="font-display text-lg font-semibold text-foreground">API Keys</span>
+            </div>
+            <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
+            <div className="rounded-b-xl border border-t-0 border-border bg-card px-6 py-5 shadow-card">
+              <ApiKeyManager />
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
       </main>
     </>
   );
