@@ -88,12 +88,32 @@ const ProfilePage = () => {
     setEmailLoading(false);
   };
 
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const handlePasswordUpdate = async () => {
+    if (!currentPassword.trim()) {
+      toast({ title: 'Please enter your current password', variant: 'destructive' });
+      return;
+    }
     if (!newPassword.trim() || newPassword.length < 6) {
-      toast({ title: 'Password must be at least 6 characters', variant: 'destructive' });
+      toast({ title: 'New password must be at least 6 characters', variant: 'destructive' });
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      toast({ title: 'New passwords do not match', variant: 'destructive' });
       return;
     }
     setPasswordLoading(true);
+    // Verify current password by re-signing in
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: user?.email || '',
+      password: currentPassword,
+    });
+    if (signInError) {
+      toast({ title: 'Current password is incorrect', variant: 'destructive' });
+      setPasswordLoading(false);
+      return;
+    }
     const { error } = await supabase.auth.updateUser({ password: newPassword });
     if (error) {
       toast({ title: 'Error', description: error.message, variant: 'destructive' });
@@ -101,6 +121,7 @@ const ProfilePage = () => {
       toast({ title: 'Password updated' });
       setCurrentPassword('');
       setNewPassword('');
+      setConfirmPassword('');
     }
     setPasswordLoading(false);
   };
@@ -207,6 +228,16 @@ const ProfilePage = () => {
           <CollapsibleContent className="overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
             <div className="rounded-b-xl border border-t-0 border-border bg-card px-6 py-5 shadow-card space-y-3">
               <div className="space-y-2">
+                <Label htmlFor="current-password">Current Password</Label>
+                <Input
+                  id="current-password"
+                  type="password"
+                  placeholder="Enter current password"
+                  value={currentPassword}
+                  onChange={e => setCurrentPassword(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
                 <Label htmlFor="new-password">New Password</Label>
                 <Input
                   id="new-password"
@@ -216,7 +247,17 @@ const ProfilePage = () => {
                   onChange={e => setNewPassword(e.target.value)}
                 />
               </div>
-              <Button onClick={handlePasswordUpdate} disabled={passwordLoading || !newPassword.trim()} className="w-full">
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password">Confirm New Password</Label>
+                <Input
+                  id="confirm-password"
+                  type="password"
+                  placeholder="Re-enter new password"
+                  value={confirmPassword}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                />
+              </div>
+              <Button onClick={handlePasswordUpdate} disabled={passwordLoading || !currentPassword.trim() || !newPassword.trim() || !confirmPassword.trim()} className="w-full">
                 {passwordLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                 Update Password
               </Button>
