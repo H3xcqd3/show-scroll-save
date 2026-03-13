@@ -88,12 +88,32 @@ const ProfilePage = () => {
     setEmailLoading(false);
   };
 
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const handlePasswordUpdate = async () => {
+    if (!currentPassword.trim()) {
+      toast({ title: 'Please enter your current password', variant: 'destructive' });
+      return;
+    }
     if (!newPassword.trim() || newPassword.length < 6) {
-      toast({ title: 'Password must be at least 6 characters', variant: 'destructive' });
+      toast({ title: 'New password must be at least 6 characters', variant: 'destructive' });
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      toast({ title: 'New passwords do not match', variant: 'destructive' });
       return;
     }
     setPasswordLoading(true);
+    // Verify current password by re-signing in
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: user?.email || '',
+      password: currentPassword,
+    });
+    if (signInError) {
+      toast({ title: 'Current password is incorrect', variant: 'destructive' });
+      setPasswordLoading(false);
+      return;
+    }
     const { error } = await supabase.auth.updateUser({ password: newPassword });
     if (error) {
       toast({ title: 'Error', description: error.message, variant: 'destructive' });
@@ -101,6 +121,7 @@ const ProfilePage = () => {
       toast({ title: 'Password updated' });
       setCurrentPassword('');
       setNewPassword('');
+      setConfirmPassword('');
     }
     setPasswordLoading(false);
   };
