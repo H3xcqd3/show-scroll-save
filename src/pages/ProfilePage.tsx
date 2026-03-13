@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { Download, ChevronDown, Sun, Moon, User, Mail, Lock, Camera, Loader2, Key } from 'lucide-react';
 import ImportExport from '@/components/ImportExport';
+import ApiKeyManager from '@/components/ApiKeyManager';
 import { useTheme } from '@/hooks/useTheme';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
