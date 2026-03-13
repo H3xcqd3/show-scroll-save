@@ -228,6 +228,16 @@ const ProfilePage = () => {
           <CollapsibleContent className="overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
             <div className="rounded-b-xl border border-t-0 border-border bg-card px-6 py-5 shadow-card space-y-3">
               <div className="space-y-2">
+                <Label htmlFor="current-password">Current Password</Label>
+                <Input
+                  id="current-password"
+                  type="password"
+                  placeholder="Enter current password"
+                  value={currentPassword}
+                  onChange={e => setCurrentPassword(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
                 <Label htmlFor="new-password">New Password</Label>
                 <Input
                   id="new-password"
@@ -237,7 +247,17 @@ const ProfilePage = () => {
                   onChange={e => setNewPassword(e.target.value)}
                 />
               </div>
-              <Button onClick={handlePasswordUpdate} disabled={passwordLoading || !newPassword.trim()} className="w-full">
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password">Confirm New Password</Label>
+                <Input
+                  id="confirm-password"
+                  type="password"
+                  placeholder="Re-enter new password"
+                  value={confirmPassword}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                />
+              </div>
+              <Button onClick={handlePasswordUpdate} disabled={passwordLoading || !currentPassword.trim() || !newPassword.trim() || !confirmPassword.trim()} className="w-full">
                 {passwordLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                 Update Password
               </Button>
