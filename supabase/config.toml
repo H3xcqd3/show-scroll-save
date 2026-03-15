@@ -1,9 +1,6 @@
 project_id = "uuxsjllwrcchiprnvtko"
 
-[functions.library-api]
-verify_jwt = false
-
-[functions.get-recommendations]
+[functions.admin-users]
 verify_jwt = false
 
 [functions.lists-api]
